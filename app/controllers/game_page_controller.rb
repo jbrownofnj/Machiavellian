@@ -12,6 +12,7 @@ class GamePageController < ApplicationController
           session[:player_id]=nil
           redirect_to results_page_url(@game)
         end
+        redirect_to game_page_show_path
       else
         @game=Game.new
         @game.players.build
