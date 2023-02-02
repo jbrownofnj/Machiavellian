@@ -1,0 +1,49 @@
+
+<div class="container mx-auto h-screen w-screen max-w-3xl">
+  <div class="grid grid-cols-1 gap-1 rounded-lg text-center m-2 border-2 p-2 border-black drop-shadow-md">
+    <span class="bg-gradient-to-b from-teal-200 to-teal-500 border-2 border-black rounded-lg text-lg"><%="Game: #{@game.game_name} - Match:#{@game.matches.count} "%></span>
+    <%if  @first_time_seeing_new_round%>
+      <span class="bg-gradient-to-b from-red-200 to-red-500 border-2 border-black rounded-lg text-2xl"><%="Round:#{@game.matches.last.rounds.count}"%></span>
+    <%else%>
+      <span class="bg-gradient-to-b from-teal-200 to-teal-500 border-2 border-black rounded-lg text-lg"><%="Round:#{@game.matches.last.rounds.count}"%></span>
+    <%end%>
+    <span class="text-lg underline">Houses</span>
+    <%@game.players&.each do |player|%>
+      <%if player==@player%>   
+        <%= render partial: player%> 
+      <%end%>
+    <%end%> 
+    <%@game.players&.each do |player|%>
+      <%if player!=@player%>   
+        <%= render partial: player%> 
+      <%end%>
+    <%end%> 
+  </div>
+  <div class="grid grid-cols-2 gap-4 m-2">
+    <%= link_to "Resources", player_resources_path,class:"bg-gradient-to-b from-sky-300 to-sky-500 border-4 border-black rounded-lg text-center text-lg" %>
+    <%= link_to "Military", player_military_unit_roles_path,class:"bg-gradient-to-b from-sky-300 to-sky-500 border-4 border-black rounded-lg text-center text-lg" %>
+    <%= link_to "Constructions", constructions_path,class:"bg-gradient-to-b from-sky-300 to-sky-500 border-4 border-black rounded-lg text-center text-lg" %>
+    <%= link_to "Trade", trade_player_roles_path,class:"bg-gradient-to-b from-sky-300 to-sky-500 border-4 border-black rounded-lg text-center text-lg" %>
+  </div>
+  <div class="grid grid-cols-1 gap-2 m-2">
+    <%= link_to "Take Action"  , player_actions_path,class:"bg-gradient-to-b from-indigo-300 to-indigo-500 border-4 border-black rounded-lg text-center text-lg"%>
+    <%if @game.current_round.player_actions.exists?(player:@player,action_type:"end_round")%>
+      <%= link_to "Rescind offer to end round", rescind_end_round_path,class:"bg-gradient-to-b from-indigo-300 to-indigo-500 border-4 border-black rounded-lg text-center text-lg" %>
+    <%else%>
+      <%= link_to "End Round", end_round_path,class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-center text-lg" %>
+    <%end%>
+  </div>
+  <div class="grid grid-cols-1 gap-2 m-8">
+    <%= link_to "Log out of this game", leave_game_page_path,class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-center text-lg" %>
+    <%if @game.players.first == @player%>
+        <%= link_to "Destroy game?!", @game, class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-center text-lg", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this game?"}%><br/><br/>
+    <%end%>
+  </div>
+</div>
+  
+  
+
+
+
+
+

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @player_military_unit_role %>
+
+<div>
+  <%= link_to "Edit this player military unit role", edit_player_military_unit_role_path(@player_military_unit_role) %> |
+  <%= link_to "Back to player military unit roles", player_military_unit_roles_path %>
+
+  <%= button_to "Destroy this player military unit role", @player_military_unit_role, method: :delete %>
+</div>

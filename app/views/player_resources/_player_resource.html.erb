@@ -1,0 +1,18 @@
+<%=turbo_frame_tag player_resource do%>
+  <div class="m-1 p-1">
+    <%resource_image="red_x.png"%>
+    <%case player_resource.resource_type%>
+    <%when "gold"%>
+      <%resource_image="big_gold.png"%>
+      <%generator_type="mine"%>
+    <%when "spy"%>
+    <%resource_image="big_spyglass.png"%>
+    <%generator_type="embassy"%>
+    <%when "soldier"%>
+    <%resource_image="small_sword.png"%>
+    <%generator_type="castle"%>
+    <%end%>
+    <%= image_tag resource_image,class:"inline h-10"%> <p class="text-xl "><%="#{player_resource.resource_type.capitalize}:"%><%="#{player_resource.resource_quantity}"%></p>
+    <p class="text-xl"><%=generator_type.capitalize.pluralize%>:<%=@resource_generators.where(resource_generator_type:generator_type).count%></p>
+  </div>
+<%end%>

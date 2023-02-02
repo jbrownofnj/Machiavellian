@@ -1,0 +1,22 @@
+<%= form_with(model: player) do |form| %>
+  <% if player.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(player.errors.count, "error") %> prohibited this player from being saved:</h2>
+      <ul>
+        <% player.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="border-solid border-black rounded-lg border-4 m-1">
+    <p class="text-xl underline underline-offset-4 m-1">Join Game</p>
+    <%= form.label :game_name,"Game Name:", class:"text-xl" %>
+    <%= form.text_field :game_name, class:"border-solid border-black rounded-lg border-2 text-xl w-5/12"  %><br/>
+    <%= form.label :password,"Game Password:", class:"text-xl " %>
+    <%= form.password_field :password, class:"border-solid border-black rounded-lg border-2 text-xl w-5/12"  %><br/>
+    <%= form.label :house_name,"House Name:", class:"text-xl" %>
+    <%= form.text_field :house_name, class:"border-solid border-black rounded-lg border-2 text-xl w-5/12"  %><br/>
+    <%= form.submit "Join Game", class:"bg-gradient-to-b from-teal-200 to-teal-500 border-4 border-black rounded-lg p-1 m-1"%>
+  </div>
+<% end %>

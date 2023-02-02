@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @round %>
+
+<div>
+  <%= link_to "Edit this round", edit_round_path(@round) %> |
+  <%= link_to "Back to rounds", rounds_path %>
+
+  <%= button_to "Destroy this round", @round, method: :delete %>
+</div>

@@ -1,0 +1,2 @@
+module ResourceGeneratorConstructionsHelper
+end

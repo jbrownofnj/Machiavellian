@@ -1,0 +1,41 @@
+<div id="<%= dom_id path_to_power_construction %>" class="text-center text-lg p-2 m-2">
+  <p class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-sky-300 to-sky-500 m-2">
+    Path to power type:
+    <%= path_to_power_construction.path_to_power_type.capitalize %>
+  </p>
+  <p class="text-xl m-2">
+    Cost to build:
+  </p>
+  <span class="inline-block border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2 p-2">
+    Gold: <%=path_to_power_construction.gold_cost%>
+  </span>
+   <span class="inline-block border-4 border-black rounded-lg text-xl bg-gradient-to-b from-stone-200 to-stone-400 m-2 p-2">
+    Spies: <%=path_to_power_construction.spy_cost%>
+  </span>
+   <span class="inline-block border-4 border-black rounded-lg text-xl bg-gradient-to-b from-red-200 to-red-400 m-2 p-2">
+    Soldiers: <%=path_to_power_construction.soldier_cost%>
+  </span>
+  <%if path_to_power_construction.construction.player == @player%>
+    <%if path_to_power_construction.construction.fundings.count>0%>
+      <p class="text-xl">Funds already dedicated:</p>
+      <%path_to_power_construction.construction.fundings&.each do |fund|%>
+        <%if fund.funding_resource_type.downcase=="gold"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2">
+            <%=render partial:"fundings/funding",locals:{funding:fund}%>
+          </div>
+        <%elsif fund.funding_resource_type.downcase=="spy"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-stone-200 to-stone-400 m-2">
+            <%=render partial:"fundings/funding",locals:{funding:fund}%>
+          </div>
+        <%elsif fund.funding_resource_type.downcase=="soldier"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-red-300 to-red-500 m-2">
+            <%=render partial:"fundings/funding",locals:{funding:fund}%>
+          </div>
+        <%else%>
+        <%end%>
+      <%end%>
+    <%else%>
+      <p class="text-lg border-black border-4 rounded-lg bg-gradient-to-b from-red-100 to-red-300 m-2">No Resources Yet dedicated</p>
+    <%end%>
+  <%end%>
+</div>

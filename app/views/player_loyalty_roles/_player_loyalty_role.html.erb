@@ -1,0 +1,6 @@
+<div id="<%= dom_id player_loyalty_role%>" class="bg-gradient-to-b from-sky-300 to-sky-500 border-4 border-black rounded-lg text-center text-lg">
+  <p class="text-xl m-1 p-1 ">
+    <%="#{player_loyalty_role.player_loyalty.owner.house_name} loyalty:"%>
+  </p>
+  <%= render partial:"player_loyalties/player_loyalty",locals:{player_loyalty:player_loyalty_role.player_loyalty}%>
+</div>

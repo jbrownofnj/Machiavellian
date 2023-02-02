@@ -1,0 +1,12 @@
+
+<div class="container mx-auto h-screen w-screen max-w-2xl text-center">
+  <div class="grid grid-cols-1 gap-1 justify-center text-center m-2">
+    <h1 class="text-xl underline">Create a new Army or Mercenary band</h1>
+    <%= render "form", raise_army: @raise_army %>
+    <br>
+    <div class="m-2 p-2">
+      <%= link_to "Back to actions", player_actions_path, class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg p-1 m-1 text-xl" %>
+    </div>
+  </div>
+</div>
+

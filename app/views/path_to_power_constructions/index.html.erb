@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Path to power constructions</h1>
+
+<div id="path_to_power_constructions">
+  <% @path_to_power_constructions.each do |path_to_power_construction| %>
+    <%= render path_to_power_construction %>
+    <p>
+      <%= link_to "Show this path to power construction", path_to_power_construction %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New path to power construction", new_path_to_power_construction_path %>

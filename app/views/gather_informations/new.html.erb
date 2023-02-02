@@ -1,0 +1,28 @@
+<%#sets the variables for the partial%>
+<%gather_information_cost=@player.cost_to_gather_information(@round)%>
+<%spies_player_has=@player.amount_of_resource("spy")%>
+<%has_enough_spies=@player.has_enough_resource("spy",gather_information_cost)%>
+
+
+<div class="container mx-auto h-screen w-screen max-w-2xl text-center">
+  <div class="text-center grid grid-cols-1 gap-1">
+    <h1 class="text-xl underline underline-offset-4 m-1 p-1">Gather Information</h1>
+
+    <%#Shows the player if they have enough spies to gather information and if they do renders a form to create a new gather information%>
+    <%if has_enough_spies%>
+      <p>You currently have <%=spies_player_has%> spies. It will cost (<%=gather_information_cost%>) to gather information</p>
+      <%= render "form"%>
+    <%else%>
+        <p class=" border-2 rounded border-black text-xl rounded-lg">You do not have enough spies to gather information this round. You have <%=spies_player_has%> spies. It currenly costs you <%=gather_information_cost%> spies.</p>
+    <%end%>
+
+    <%#Returns player to the player_actions_index%>
+    <div class="m-2 p-2">
+      <%= link_to "Back to actions", player_actions_path, class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg p-1 m-1 text-xl" %>
+    </div>
+  </div>
+</div>
+
+
+  
+  

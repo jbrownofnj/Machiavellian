@@ -1,0 +1,13 @@
+<div id="<%= dom_id raise_army %>" class="bg-sky-400 border-4 border-black rounded-lg text-center text-lg">
+  <%if raise_army.raise_army_type=="army"%>
+  <p>
+    <strong>Army Power:</strong>
+    <%= raise_army.army_power %>
+  </p>
+  <%else%>
+    <p>
+    <strong>Mercenary Unit Power:</strong>
+    <%= raise_army.army_power %>
+  </p>
+  <%end%>
+</div>

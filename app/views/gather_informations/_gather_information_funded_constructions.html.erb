@@ -1,0 +1,24 @@
+<div>
+    <p class="text-xl"><%=@player.house_name%> funded the following constructions:</p>        
+    <%@player.funding_request_player_roles&.each do |role|%>
+        <%if role.funding_request.is_accepted && role.funding_request.round == @last_round && @player == role.funding_request.funder%>
+            <%@has_funded_no_constructions_last_round=false%>
+            <%construction_type=role.funding_request.construction.construction_type%>
+            <%construction_subtype="Errror"%>
+            <% if construction_type=="resource_generator_construction"%>
+                <%construction_subtype=role.funding_request.construction.resource_generator_constructions.first.resource_generator_type%>
+            <%elsif construction_type=="path_to_power_construction"%>
+                <%construction_subtype=role.funding_request.construction.path_to_power_constructions.first.path_to_power_type%>
+            <%end%>
+            <div class="border-4 border-black rounded-lg p-2 m-2 bg-gradient-to-b from-blue-50 to-blue-100">
+                <p class="text-2xl"><%=role.funding_request.owner.house_name%>-<%=construction_subtype.capitalize%>:</p>
+                <%role.funding_request.funding_request_resources&.each do |funding_request_resource|%>
+                    <%=render partial:"funding_request_resources/funding_request_resource",locals:{funding_request_resource:funding_request_resource}%>
+                <%end%>
+            </div>
+        <%end%>
+    <%end%>
+    <%if @has_funded_no_constructions_last_round%>
+        <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500 p-2 m-2">Funded no constructions last round</p>  
+    <%end%>
+</div>

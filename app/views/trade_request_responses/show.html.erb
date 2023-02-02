@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @trade_request_response %>
+
+<div>
+  <%= link_to "Edit this trade request response", edit_trade_request_response_path(@trade_request_response) %> |
+  <%= link_to "Back to trade request responses", trade_request_responses_path %>
+
+  <%= button_to "Destroy this trade request response", @trade_request_response, method: :delete %>
+</div>

@@ -1,0 +1,47 @@
+<div class="container mx-auto">
+  <div class="grid grid-cols-1 gap-1"> 
+    <%= form_with model:@raise_army do |form| %>
+
+      <%#choose weather the unit will be army or mercenary%>
+      <div class="border-4 border-rounded border-black rounded-lg p-1 m-1">
+        <%if @player.has_enough_resource("spy",1)%>
+          <p class="text-xl">Unit Type:</p>
+            <%= form.collection_radio_buttons :raise_army_type,[["army","Army"],["mercenary","Mercenaries"]],:first,:last,{checked:["army","Army"]}, boolean_style: :inline  do |unit_type_choice| %>
+              <%=unit_type_choice.radio_button%>
+              <%= unit_type_choice.label class:"text-xl"%>
+            <%end%>
+        <%else%>
+          <p class="text-xl m-1 p-1">This unit must be an army as you have no spies. To obtain spies create an embassy.</p><br/>
+        <%end%>
+      </div>
+
+      
+      <%if PlayerResource.exists?(player_id:@player.id) && @player.player_resources.exists?(resource_type:"soldier")%>
+        <%@soldier_quantity=@player.player_resources.find_by(resource_type:"soldier").resource_quantity%>
+        <div class="border-4 rounded-lg border-black p-1 m-1">
+          <%= form.label :army_power, style: "display: block" %>
+          <%= form.number_field :army_power,class:"border-4 border-black rounded-lg",max:@soldier_quantity,min:1,step:1,value:1 %><p>"(You currently have 
+          <%if @soldier_quantity==1%>
+          1 soldier 
+          <%else%>
+          <%=@soldier_quantity%> soldiers
+          <%end%>
+          to spend on raising a military unit)"</p>
+
+        <%if @player.has_enough_resource("spy",1)%>
+          <p>You also have <strong><%=@player.player_resources.find_by(resource_type:"spy").resource_quantity%> SPIES</strong>. It requires half the amount of spies as soldier to raise a mercenary</p>
+        <%end%>
+        </div>
+      <%= form.submit "Start Raising Military Unit", class:"bg-teal-200 border-4 border-black rounded-lg p-1 m-1" %>
+      <%else%>
+        <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500 p-2 m-2">You have no soldiers so you cannot raise an army.</p>
+      <%end%>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+
+

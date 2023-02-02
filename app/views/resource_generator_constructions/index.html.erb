@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Resource generator constructions</h1>
+
+<div id="resource_generator_constructions">
+  <% @resource_generator_constructions.each do |resource_generator_construction| %>
+    <%= render resource_generator_construction %>
+    <p>
+      <%= link_to "Show this resource generator construction", resource_generator_construction %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New resource generator construction", new_resource_generator_construction_path %>

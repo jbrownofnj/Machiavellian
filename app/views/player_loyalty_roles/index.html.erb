@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Player loyalty roles</h1>
+
+<div id="player_loyalty_roles">
+  <% @player_loyalty_roles.each do |player_loyalty_role| %>
+    <%= render player_loyalty_role %>
+    <p>
+      <%= link_to "Show this player loyalty role", player_loyalty_role %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New player loyalty role", new_player_loyalty_role_path %>

@@ -1,0 +1,11 @@
+
+<div class="container mx-auto h-screen w-screen">
+    <div class="grid-cols-1 text-center">
+      <h1 class="text-xl underline">Move a Unit and/or change stance</h1><br/>
+      <%= render "form", move_army: @move_army %>
+      <br>
+      <div>
+        <%= link_to "Back to actions", player_actions_path, class:"bg-gradient-to-b from-red-300 to-red-500 text-xl border-4 border-black rounded-lg p-1 m-1" %>
+      </div>
+    </div>
+</div>

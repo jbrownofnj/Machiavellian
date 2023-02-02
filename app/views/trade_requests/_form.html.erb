@@ -1,0 +1,47 @@
+
+  
+  <%= form_with model:@trade_request do |form| %>
+  
+    <% if trade_request.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(trade_request.errors.count, "error") %> prohibited this trade_request from being saved:</h2>
+
+        <ul>
+          <% trade_request.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%@player_house_name_array=[]%>
+
+    <%@game.players.each do |player|%>
+        <%if player != @player%>
+            <%@player_house_name_array.push(player.house_name)%>
+        <%end%>
+    <%end%>
+    <div class="grid grid-cols-1 gap-1 border-4 border-black rounded-lg text-center p-2">
+    <%= form.fields_for :trade_player_roles do |trade_role_form| %>
+      <%=form.label "Player roles:"%>
+      <%=form.select :role_type, [["Sender","sender"],["Receiver","receiver"]], class:"bg-yellow-100"%>
+      <%=form.label "House:"%>
+      <%=form.select :player, @player_house_name_array%>
+      <br/>
+    <% end %>
+    
+    <%= form.fields_for :trade_request_resources do |trade_request_resources_form|%>
+      <div class="text-center m-1 p-1 border-4 border-black rounded-lg bg-gradient-to-b from-sky-200 to-sky-500 text-xl">
+          <span><%="#{trade_request_resources_form.object.trade_request_resource_type}:".capitalize%></span>
+          <%@test=trade_request_resources_form%>
+          <%=trade_request_resources_form.hidden_field :trade_request_resource_type, value:trade_request_resources_form.object.trade_request_resource_type%>
+          <%=trade_request_resources_form.number_field :trade_request_resource_quantity,class:"text-center bg-yellow-100", min:"0",value:"0",max:"100",step:"1"%>
+      </div>
+    <%end%>
+    <%= form.hidden_field :number_of_resources , value:@trade_request.trade_request_resources.size%>
+    <%= form.submit "Create Trade",class:"border-4 border-black rounded-lg text-xl bg-gradient-to-b from-teal-200 to-teal-500" %>
+    </div>
+  <%end%>
+  
+  
+

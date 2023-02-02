@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @player_match_role %>
+
+<div>
+  <%= link_to "Edit this player match role", edit_player_match_role_path(@player_match_role) %> |
+  <%= link_to "Back to player match roles", player_match_roles_path %>
+
+  <%= button_to "Destroy this player match role", @player_match_role, method: :delete %>
+</div>

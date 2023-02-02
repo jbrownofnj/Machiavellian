@@ -1,0 +1,32 @@
+<%= form_with(model: player_loyalty_role) do |form| %>
+  <% if player_loyalty_role.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(player_loyalty_role.errors.count, "error") %> prohibited this player_loyalty_role from being saved:</h2>
+
+      <ul>
+        <% player_loyalty_role.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :player_id, style: "display: block" %>
+    <%= form.text_field :player_id %>
+  </div>
+
+  <div>
+    <%= form.label :player_loyalty_id, style: "display: block" %>
+    <%= form.text_field :player_loyalty_id %>
+  </div>
+
+  <div>
+    <%= form.label :player_loyalty_role_type, style: "display: block" %>
+    <%= form.text_field :player_loyalty_role_type %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,44 @@
+<%= form_with(model: funding_request) do |form| %>
+  <% if funding_request.errors.any? %>
+    <div>
+      <ul>
+        <% funding_request.errors.each do |error| %>
+          <li class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-center text-lg"><%= error.type %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%@player_constructions=[]%>
+  <%@player.constructions.each do |construction|%>
+    <%if construction.construction_type=="resource_generator_construction" && construction.is_funded != true%>
+      <%@player_constructions.push(construction.resource_generator_constructions.first.resource_generator_type.capitalize)%> 
+    <%elsif construction.construction_type=="path_to_power_construction" && construction.is_funded != true%>
+      <%@player_constructions.push(construction.path_to_power_constructions.first.path_to_power_type.capitalize)%> 
+    <%end%>
+  <%end%>
+  <%@house_names=[]%>
+  <%@game.players.each do |funding_player|%>
+    <%if funding_player != @player%>
+      <%@house_names.push(funding_player.house_name)%> 
+    <%end%>
+  <%end%>
+  <div>
+    <%= form.label :construction_resource_ptp_type, "Choose A Construction:", class:"text-xl m-2"%>
+    <%= form.select :construction_resource_ptp_type, @player_constructions %>
+  </div>
+  <div>
+    <%= form.label :player, "Choose A Player:", class:"text-xl m-2"%>
+    <%= form.select :player, @house_names %>
+  </div>
+    <div>
+    <%= form.label :resource_type, "Select A Resource:", class:"text-xl m-2"%>
+    <%= form.select :resource_type, [["Gold","gold"],["Spy","spy"],["Soldier","soldier"]] %>
+  </div>
+  <div>
+    <%= form.label :amount, "Amount:", class:"text-xl m-2"%>
+    <%= form.number_field :amount, in:1..20,value:1%>
+  </div>
+  <div>
+    <%= form.submit "Request Funds", class:"bg-gradient-to-b from-teal-200 to-teal-500 border-4 border-black rounded-lg p-3 text-xl m-2"%>
+  </div>
+<% end %>

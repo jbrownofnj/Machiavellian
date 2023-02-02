@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Funding request resources</h1>
+
+<div id="funding_request_resources">
+  <% @funding_request_resources.each do |funding_request_resource| %>
+    <%= render funding_request_resource %>
+    <p>
+      <%= link_to "Show this funding request resource", funding_request_resource %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New funding request resource", new_funding_request_resource_path %>

@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Resource generators</h1>
+
+<div id="resource_generators">
+  <% @resource_generators.each do |resource_generator| %>
+    <%= render resource_generator %>
+    <p>
+      <%= link_to "Show this resource generator", resource_generator %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New resource generator", new_resource_generator_path %>

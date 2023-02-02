@@ -1,0 +1,13 @@
+<div id="<%= dom_id funding_request_player_role %>" class="text-xl">
+  <%if funding_request_player_role.funding_request.owner == @player%>
+    <p>
+      <strong>Request to:</strong>
+      <%= funding_request_player_role.funding_request.funder.house_name %>
+    </p>
+  <%else%>
+    <p>
+      <strong>Requested by:</strong>
+      <%= funding_request_player_role.funding_request.owner.house_name %>
+    </p>
+  <%end%>
+</div>

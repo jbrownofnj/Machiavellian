@@ -1,0 +1,26 @@
+<%= form_with(model: @game) do |form| %>
+  <% if game.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
+      <ul>
+        <% game.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="border-solid border-black rounded-lg border-4 m-1">
+    <p class="text-xl underline underline-offset-4 m-1">Create New Game</p>
+    <%= form.label :game_name,"Game Name:", class:"text-xl" %>
+    <%= form.text_field :game_name,class:"border-solid border-black rounded-lg border-2 text-xl w-5/12 text-center float-center" %><br/>
+    <%= form.label :password,"Game Password:",class:"text-xl" %>
+    <%= form.password_field :password,class:"border-solid border-black rounded-lg border-2 text-xl w-5/12 text-center" %><br/>
+     <%=form.fields_for :players do |player_form|%>
+      <%= player_form.label :house_name,"House Name:",class:"text-xl"%>
+      <%= player_form.text_field :house_name,class:"border-solid border-black rounded-lg border-2 text-xl w-5/12 text-center" %><br/>
+      <%= player_form.hidden_field :user_id, value:@game.players.first.user.id%>
+    <%end%>
+    <%= form.submit "Start Game", class:"bg-gradient-to-b from-teal-200 to-teal-500 border-4 border-black rounded-lg m-1 p-1" %>
+  </div>
+<% end %>
+

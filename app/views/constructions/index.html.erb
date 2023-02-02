@@ -1,0 +1,21 @@
+<div id="constructions" class="container mx-auto h-screen w-screen max-w-2xl text-center">
+  <p class="text-xl underline">Constructions</p> 
+  <%if @player.has_unfunded_constructions?%>       
+    <%@constructions&.each do |construction|%>
+        <%if construction.construction_type=="resource_generator_construction" && (construction.is_funded != true || construction.round==construction.player.game.matches.last.rounds.last)%>
+            <div class="border-4 border-black rounded-lg p-2 m-2 bg-gradient-to-b from-blue-50 to-blue-100 m-2">
+              <%=render partial:"resource_generator_constructions/resource_generator_construction",locals:{resource_generator_construction:construction.resource_generator_constructions.first}%>
+            </div>
+        <%end%>
+        <%if construction.construction_type=="path_to_power_construction" && (construction.is_funded != true || construction.round==construction.player.game.matches.last.rounds.last)%>
+            <div class="border-4 border-black rounded-lg p-2 m-2 bg-gradient-to-b from-blue-50 to-blue-100">
+              <%=render partial:"path_to_power_constructions/path_to_power_construction",locals:{path_to_power_construction:construction.path_to_power_constructions.first}%>
+            </div>
+        <%end%>
+    <%end%>
+  <%else%>
+    <p class="bg-red-200 border-4 border-black rounded-lg text-center text-lg m-4">You currently have no constructions.</p>
+  <%end%>
+  <%= link_to "Return to Games Page", game_page_show_path(), class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-xl p-1 m-4"%>
+</div>
+

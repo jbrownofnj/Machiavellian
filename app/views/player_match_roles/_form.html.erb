@@ -1,0 +1,32 @@
+<%= form_with(model: player_match_role) do |form| %>
+  <% if player_match_role.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(player_match_role.errors.count, "error") %> prohibited this player_match_role from being saved:</h2>
+
+      <ul>
+        <% player_match_role.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :match_id, style: "display: block" %>
+    <%= form.text_field :match_id %>
+  </div>
+
+  <div>
+    <%= form.label :player_id, style: "display: block" %>
+    <%= form.text_field :player_id %>
+  </div>
+
+  <div>
+    <%= form.label :player_match_role_type, style: "display: block" %>
+    <%= form.text_field :player_match_role_type %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

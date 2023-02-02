@@ -1,0 +1,122 @@
+<div class="container flex flex-col text-center p-6">
+    <h1 class="text-3xl underline">How to play</h1>
+    <p class="text-lg m-4">    
+        Machiavellian is a game of politics, bargaining, betrayal, and espionage. 
+        You will be playing the part of a rich noble house in a fictitious medieval setting. 
+        The goal of the game is to accrue across a series of “Matches” enough "Royalty Points" to 
+        become the royal family of your kingdom. Royalty points are accrued by each house across each match by 
+        successfully constructing a "Path to Power" and thus winning that match. 
+        Once a path to power has been constructed the match is over and that player, and probably others, 
+        will be awarded “Victory Points”. Once a single player has enough royalty points
+        the game is over and your noble house is now the royal family. This game is meant to be played with amoungst friends with this
+        site as a tool. The players each spend their turn trying to convince others to fund their constructions
+        in order to aquire more resources. Eventually someone must construct a path to power and concince their fellow 
+        players to fund it. But for that you will need to make it worth their while!
+    </p>
+    <h1 class="text-xl underline">The Espionage rule.</h1>
+    <p class="text-lg m-4">    
+        The espionage rule states that if a player requests a private conversation you must give that player
+        the opertunity to speak with you for up to one (1) minute, out of earshot of all other players. This can be
+        asked of each player by any given player once per round. This rule ensures that opertunities for players
+        to make secret. Otherwise it would be very difficult to convince the other players that the person you keep
+        walking off with by yourself are not secretly working together. 
+    </p>
+    <h1 class="text-xl underline">How you start</h1>
+    <p class="text-lg m-4">    
+        Once someone has made a game and your friends have joined it you can begin. 
+        Everyone will begin with one "Mine" and one "Gold". Every round you can:
+    </p>
+    <div flex object-center>
+    <ul class="m-2 text-lg border-4 border-black rounded-lg">
+        <li class="m-1">- Raise one military unit that you will receive next round.</li>   
+        <li class="m-1">- Gather information one(1) other player.</li>
+        <li class="m-1">- Move one(1) military unit and/or change its stance between offence and defence.</li>
+        <li class="m-1">- Start a construcion of either a resource generator or path to power 
+        provided you dont have one of that type.</li>
+        <li class="m-1">- Make three(3) Trades that get accepted.</li>
+        <li class="m-1">- Fund one(1) construction OF ANOTHER PLAYER with one kind of resource.</li>
+    </ul>
+    </div>
+    <h1 class="text-xl underline">Victory Points and loyalty</h1>
+    <p class="text-lg m-4">    
+        Aquiring victory points its the primary goal of Machiavellian. Victory points are earned when a player wins a match
+        in a given game. When a player wins a match everyone who has any of their loyalty gets that many victory points. 
+        Players each start with 60 of their own loyalty points. As the game progressess you can trade loyalty to other
+        players in exchange for favors and resources. Giving other players your loyalty means that you wont earn as 
+        many victory points at the end of the match if you win. But it also means that the player you give those points
+        to now has something to gain if you win. 
+    </p>
+    <h1 class="text-xl underline">Resources and Resource Generators</h1>
+    <p class="text-lg m-4">    
+        In order to fund a path to power and take the crown you must aquire funding. Other players and yourself will
+        generate resources with resource generators. There are three kinds of generators: 
+    </p>
+    <ul class="m-2 text-lg border-4 border-black rounded-lg">
+        <li class="m-1">- Mines which produce Gold</li>   
+            <div class="m-1 p-1">
+                <%= image_tag "big_gold.png",class:"inline h-10"%> 
+            </div>
+        <li class="m-1">- Castles which produce Soldiers</li>
+            <div class="m-1 p-1">
+                <%= image_tag "small_sword.png",class:"inline h-10"%> 
+            </div>
+        <li class="m-1">- Embassies which produce Spies</li>
+            <div class="m-1 p-1">
+                <%= image_tag "big_spyglass.png",class:"inline h-10"%> 
+            </div>
+    </ul>
+    <p class="text-lg m-4">    
+        Every round each resource generator you have will give you one resource of its associated type. 
+        This will not happen if an enemy has successfully routed you. This is covered in more detail under "Military". 
+    </p>
+    <h1 class="text-xl underline">Military</h1>
+    <p class="text-lg m-4">    
+        A military allows players to attack other players and defend themselves in turn. Each turn a player can raise 
+        a new military unit. They will then have access to that unit at the start of the next round. A unit can either
+        be an Army or Mercenaries. Each works the same except the Mercenaries dont say who owns them when they are 
+        attacking another player. Armies on the other-hand say exactly who is commanding them to attack. All military
+        units have a certain strength. This number is equal to the soldiers spent to raise the unit. If the unit are 
+        mercenaries then it will also cost half as much spies as soldier to raise the unit. A military unit can either
+        be attacking or defending wherever they are. If they are attacking and the sum of attacking units power is 
+        greater than the sum of the defending units power then the player is "Routed" for that turn. Routed players
+        will get no resources from their resource generators that turn. But whenever a military unit spends its turn on
+        enemy lands its power will reduce by one(1).
+    </p>
+    <h1 class="text-xl underline">Winning a match</h1>
+    <p class="text-lg m-4">    
+        Games consist of a few matches. Each match your goal is to create a path to power and fund it. To start
+        a path to power you start it as a construction. There are three(3) kinds of paths to power each with 
+        different costs to fund it:
+    </p>
+    <ul class="m-2 text-lg border-4 border-black rounded-lg">
+        <li class="m-1">- Wealth</li>   
+            <div class="m-1 p-1">
+                <%= image_tag "big_gold.png",class:"inline h-10"%> <span>:10</span><br/>
+                <%= image_tag "small_sword.png",class:"inline h-10"%> <span>:3</span><br/>
+                <%= image_tag "big_spyglass.png",class:"inline h-10"%> <span>:5</span>
+            </div>
+        <li class="m-1">- War</li>
+            <div class="m-1 p-1">
+                <%= image_tag "big_gold.png",class:"inline h-10"%> <span>:5</span><br/>
+                <%= image_tag "small_sword.png",class:"inline h-10"%> <span>:10</span><br/>
+                <%= image_tag "big_spyglass.png",class:"inline h-10"%> <span>:3</span>
+            </div>
+        <li class="m-1">- Subterfuge</li>
+            <div class="m-1 p-1">
+                <%= image_tag "big_gold.png",class:"inline h-10"%> <span>:3</span><br/>
+                <%= image_tag "small_sword.png",class:"inline h-10"%> <span>:5</span><br/>
+                <%= image_tag "big_spyglass.png",class:"inline h-10"%> <span>:10</span>
+            </div>
+    </ul>
+    <p class="text-lg m-4">    
+        If two players successfully fund a path to power at the same time both are destroyed. If you alone
+        fund a path to power you have won the match. Then you ,and any other player who had any of your loyalty
+        points, gets as many vitory points as they had loyalty points. If the game is not over a new match begins.  
+    </p>
+    <h1 class="text-xl underline">Winning the game</h1>
+    <p class="text-lg m-4">    
+        The game ends when someone has over 60 vitory points at the end of a match. It is possible for there to 
+        be more then one winner if more then one player ends the final round of the final match with the same
+        amount of victory points.
+    </p>
+</div>

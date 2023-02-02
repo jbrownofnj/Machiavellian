@@ -1,0 +1,27 @@
+<%= form_with(model: resource_generator) do |form| %>
+  <% if resource_generator.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(resource_generator.errors.count, "error") %> prohibited this resource_generator from being saved:</h2>
+
+      <ul>
+        <% resource_generator.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :player_id, style: "display: block" %>
+    <%= form.text_field :player_id %>
+  </div>
+
+  <div>
+    <%= form.label :resource_generator_type, style: "display: block" %>
+    <%= form.text_field :resource_generator_type %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

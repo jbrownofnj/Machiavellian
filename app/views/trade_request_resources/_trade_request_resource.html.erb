@@ -1,0 +1,10 @@
+<%= turbo_frame_tag :resources do%>
+     <%= form.fields_for :trade_request_resources do |trade_request_resource| %>
+      <%=trade_request_resource.label "Player roles:"%>
+      <%=trade_request_resource.select :role_type, ["sender","receiver"]%>
+      <%=trade_request_resource.label "House:"%>
+      <%=trade_request_resource.select :player, @player_house_name_array%>
+      <br/>
+  <% end %>
+<%end%>
+

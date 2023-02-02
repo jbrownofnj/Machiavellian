@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @path_to_power_construction %>
+
+<div>
+  <%= link_to "Edit this path to power construction", edit_path_to_power_construction_path(@path_to_power_construction) %> |
+  <%= link_to "Back to path to power constructions", path_to_power_constructions_path %>
+
+  <%= button_to "Destroy this path to power construction", @path_to_power_construction, method: :delete %>
+</div>

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player: one
+  military_unit: one
+  military_unit_role_type: MyString
+
+two:
+  player: two
+  military_unit: two
+  military_unit_role_type: MyString

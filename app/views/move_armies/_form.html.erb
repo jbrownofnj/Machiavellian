@@ -1,0 +1,31 @@
+<div class="grid grid-cols-1 gap-1">
+  <%= form_with(model: move_army) do |form| %>
+    <% if move_army.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(move_army.errors.count, "error") %> prohibited this move_army from being saved:</h2>
+        <ul>
+          <% move_army.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="grid grid-cols-1 gap-1 text-center">
+      <%= form.label :player_id,"Player to move army to" ,style: "display: block" ,class:"text-xl underline underline-offset-4"%>
+      <%= form.select :player_id, @game.players.all.collect{|player|[player.house_name,player.id]} %>
+      <%@current_player_military_units=[]%>
+      <%@player.player_military_unit_roles&.each do |military_unit_role|%>
+        <%if military_unit_role.military_unit_role_type=="owner"%>
+          <%@current_player_military_units.push(military_unit_role.military_unit)%>
+        <%end%>
+      <%end%>
+      <%= form.label :military_unit_id,"Select Unit to Move", class:"text-xl underline underline-offset-4" %>
+      <%= form.select :military_unit_id,@current_player_military_units.collect{|unit|["#{unit.military_unit_type.capitalize}(#{unit.military_unit_power})(#{unit.stance}) - #{unit.houser.house_name} lands",unit.id]}%>
+      <%= form.label :stance_command, "Select Stance to Take",class:"text-xl underline underline-offset-4"%>
+      <%= form.select :stance_command,[["Attacking","attacking"],["Defending","defending"]]%>
+      <div>
+        <%= form.submit "Command this army", class:"bg-gradient-to-b from-teal-200 to-teal-500 border-4 border-black rounded-lg p-1 text-xl"%>
+      </div>
+    <% end %>
+  </div>
+</div>

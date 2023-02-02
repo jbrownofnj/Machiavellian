@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player_action: one
+  information_type: MyString
+
+two:
+  player_action: two
+  information_type: MyString

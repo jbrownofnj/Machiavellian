@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  construction: one
+  resource_generator_type: MyString
+
+two:
+  construction: two
+  resource_generator_type: MyString

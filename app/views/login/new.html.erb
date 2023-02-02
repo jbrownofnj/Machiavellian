@@ -1,0 +1,15 @@
+<div class="container p-2 max-auto text-center h-screen w-screen">
+    <div class=" text-4xl border-solid border-black rounded-lg border-2 p-2">
+        <h1>Login Screen</h1>
+    </div>
+    <div class="border-solid border-black rounded-lg border-2">
+        <%= form_with model:@user, url: login_path, method: :post do |form|%>
+            <%= form.label :user_email,"User Email",class:"text-xl"%><br/>
+            <%=form.text_field :user_email,class:"border-solid border-black rounded-lg border-2 text-xl"%><br/>
+            <%= form.label :user_email,"User Password",class:"text-xl"%><br/>
+            <%=form.password_field :password,class:"border-solid border-black rounded-lg border-2 text-xl"%><br/>
+            <%=form.submit "Login", class:"border-solid border-black rounded-lg border-2 text-xl p-2 m-2 bg-gradient-to-b from-teal-200 to-teal-500"%>
+        <%end%>
+    </div>
+    
+<div>

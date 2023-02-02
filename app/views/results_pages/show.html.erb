@@ -1,0 +1,15 @@
+<div class="text-center bg-machiavellian h-screen w-screen p-4">
+    <h1 class="text-4xl">Congradulations to:</h1><br/>
+    <%if @winners.count>1%>
+        <%last_winner=@winners.last%>
+        <%@winners.each do |winner|%>
+        <p><%=winner.house_name%>!</p>
+        <%end%>
+        <span class="text-4xl">The thone has been claimed! May these royal houses reign mightily. Long live</span>
+
+    <%else%>
+        <p class="text-4xl"><%="House #{@winners.first.house_name}"%>!</p>
+        <%= image_tag "throne.png", class:"border-black border-4 rounded-lg mx-auto object-cover w-full h-auto max-w-2xl object-center m-4"%>
+        <span class="text-4xl"><%="May House #{@winners.first.house_name} reign well and nobley!"%></span>
+    <%end%>
+</div>

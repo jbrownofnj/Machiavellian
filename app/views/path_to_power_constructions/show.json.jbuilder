@@ -1,0 +1,1 @@
+json.partial! "path_to_power_constructions/path_to_power_construction", path_to_power_construction: @path_to_power_construction

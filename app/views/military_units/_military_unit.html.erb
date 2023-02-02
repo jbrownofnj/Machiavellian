@@ -1,0 +1,22 @@
+<div id="<%= dom_id military_unit %>" >
+  <%@is_your_unit= military_unit.owner == @player%>
+  <%if @is_your_unit%>
+    <div class="bg-sky-400 border-4 border-black rounded-lg text-center text-lg">
+      <p>
+        <%= military_unit.military_unit_type.capitalize %>(<%= military_unit.military_unit_power %>)  power (<%=military_unit.stance.capitalize%>)
+      </p>
+    </div>
+  <%else%>
+  <div class="bg-red-400 border-4 border-black rounded-lg text-center text-lg">
+    <p>
+      <%= military_unit.military_unit_type.capitalize %>(<%= military_unit.military_unit_power %>)  power (<%=military_unit.stance.capitalize%>)
+      <%if military_unit.military_unit_type=="army"%>
+        - <%=military_unit.owner.house_name%> 
+      <%elsif military_unit.military_unit_type=="mercenary"%>
+        Unknown Mercenaries
+      <%end%>
+    </p>
+  </div>
+  <%end%>
+  
+</div>

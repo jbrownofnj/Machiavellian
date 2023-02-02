@@ -1,0 +1,6 @@
+<div id="<%= dom_id player %>" class="bg-gradient-to-b from-teal-200 to-teal-500 border-2 border-black rounded-lg">
+  <%= player.house_name.capitalize %>
+  <%if player == @player%>
+    (<%=player.victory_points%>) victory points
+  <%end%>  
+</div>

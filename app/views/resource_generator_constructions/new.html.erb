@@ -1,0 +1,10 @@
+<div class="container mx-auto h-screen w-screen max-w-2xl text-center">
+  <h1 class="text-xl underline underline-offset-4 text-center">Resource Generator Type</h1>
+  <div class="grid grid-cols-1 text-center gap-4 border-4 border-black rounded-lg m-1 p-1">
+  
+    <%= render "form", resource_generator_construction: @resource_generator_construction %>
+  </div>
+  <div class="grid grid-cols-1 text-center gap-4 m-1 p-1">
+      <%= link_to "Back to constructions", new_construction_path,class:"bg-teal-200 border-4 border-black rounded-lg p-3 text-xl" %>
+  </div>
+</div>

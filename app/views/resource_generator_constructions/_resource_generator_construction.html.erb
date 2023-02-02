@@ -1,0 +1,26 @@
+<div id="<%= dom_id resource_generator_construction %>" class="text-center text-lg">
+  <p class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-sky-300 to-sky-500 m-2 p-2">
+    Resource generator type:
+    <%= resource_generator_construction.resource_generator_type.capitalize %>
+  </p>
+       
+  <%if resource_generator_construction.construction.player == @player%>
+    <p class="text-xl m-2">
+    Cost to build:
+    </p>
+    <p class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2">
+    <%=resource_generator_construction.cost_to_fund_in_gold%> Gold
+    </p>
+      
+    <%if resource_generator_construction.construction.fundings.count<1%>
+      <p class="text-lg border-black border-4 rounded-lg bg-gradient-to-b from-red-100 to-red-300 m-2">No Resources Yet dedicated</p>
+    <%else%>
+      <p class="text-xl">Funds already dedicated:</p>
+    <%end%>
+    <%resource_generator_construction.construction.fundings&.each do |fund|%>
+      <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2">
+        <%=render partial:"fundings/funding",locals:{funding:fund}%>
+      </div>
+    <%end%>
+  <%end%>
+</div>

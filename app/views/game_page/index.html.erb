@@ -1,0 +1,16 @@
+<div class="text-center h-screen w-screen">
+    <div class="grid grid-cols-1 gap-1 text-center border-4 border-black rounded-lg p-1 m-1">
+        <p class="text-xl underline underline-offset-4"><%= "Games available to #{@user.user_email}:"%></p>
+        <%@user.players&.each do |player|%>
+            <%if !player.game.finished%>
+                <%=render partial:"games/game", locals:{game:player.game}%><br/>
+            <%end%>
+        <%end%>
+        <%if @user.has_no_unfinished_games?%>
+            <p class="bg-gradient-to-b from-red-200 to-red-400 border-4 border-black rounded-lg text-center text-lg">You are not currently playing any games</p>
+        <%end%>
+    </div>
+    <%=render partial:"players/form",locals:{player:Player.new}%>
+    <%=render partial:"games/form",locals:{game:Game.new}%>
+</div>
+

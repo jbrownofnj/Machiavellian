@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @raise_army %>
+
+<div>
+  <%= link_to "Edit this raise army", edit_raise_army_path(@raise_army) %> |
+  <%= link_to "Back to raise armies", raise_armies_path %>
+
+  <%= button_to "Destroy this raise army", @raise_army, method: :delete %>
+</div>

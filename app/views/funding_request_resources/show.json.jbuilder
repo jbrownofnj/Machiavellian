@@ -1,0 +1,1 @@
+json.partial! "funding_request_resources/funding_request_resource", funding_request_resource: @funding_request_resource

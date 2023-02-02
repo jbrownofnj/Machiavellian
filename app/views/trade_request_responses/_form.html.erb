@@ -1,0 +1,32 @@
+<%= form_with(model: trade_request_response) do |form| %>
+  <% if trade_request_response.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(trade_request_response.errors.count, "error") %> prohibited this trade_request_response from being saved:</h2>
+
+      <ul>
+        <% trade_request_response.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :trade_player_role_id, style: "display: block" %>
+    <%= form.text_field :trade_player_role_id %>
+  </div>
+
+  <div>
+    <%= form.label :trade_request_id, style: "display: block" %>
+    <%= form.text_field :trade_request_id %>
+  </div>
+
+  <div>
+    <%= form.label :trade_response_type, style: "display: block" %>
+    <%= form.text_field :trade_response_type %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,33 @@
+<%@player.trade_player_roles&.each do |role|%>
+    <%if role.trade_request.is_accepted && role.trade_request.round==@last_round && role.role_type !="creator"%>
+        <div  class="border-4 border-black rounded-lg p-2 m-2 bg-gradient-to-b from-blue-50 to-blue-100">
+            <%trade_request=role.trade_request%>
+            <%trade_verb=role.role_type=="receiver" ? "received:" : "sent:" %>
+            <p class="text-xl"><%=@gather_information.player.house_name%> <%=trade_verb%></p>
+            <%trade_request.trade_request_resources&.each do |resource|%>
+                <%if resource.trade_request_resource_type.downcase=="gold"%>
+                    <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2">
+                        <span><%=resource.trade_request_resource_type.capitalize%>: <%=resource.trade_request_resource_quantity%></span>
+                    </div>
+                <%elsif resource.trade_request_resource_type.downcase=="spy"%>
+                    <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-stone-200 to-stone-400 m-2">
+                    <span><%=resource.trade_request_resource_type.capitalize%>: <%=resource.trade_request_resource_quantity%></span>
+                    </div>
+                <%elsif resource.trade_request_resource_type.downcase=="soldier"%>
+                    <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-red-300 to-red-500 m-2">
+                    <span><%=resource.trade_request_resource_type.capitalize%>: <%=resource.trade_request_resource_quantity%></span>
+                    </div>
+                <%else%>
+                    <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-blue-300 to-blue-500 m-2">
+                    <span><%=resource.trade_request_resource_type.capitalize%>: <%=resource.trade_request_resource_quantity%></span>
+                    </div>
+                <%end%>
+            <%end%>
+            <%if trade_verb=="received:"%>
+            <p class="text-xl">From: <%=trade_request.sender.house_name%></p>
+            <%else%>
+            <p class="text-xl">To:  <%=trade_request.receiver.house_name%></p>
+            <%end%>
+        </div>
+    <%end%>
+    <%end%>

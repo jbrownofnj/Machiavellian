@@ -1,0 +1,68 @@
+<div class="text-center container mx-auto h-screen w-screen max-w-2xl">
+  <p class="text-2xl underline underline-offset-4">Your Trade Requests</p>
+  <div class="text-center grid grid-cols-1 gap-1">
+    <div class="text-center m-4">
+      <%if @trade_requests_you_created.count>0%>
+        <%@trade_requests_you_created.each do |trade_request|%>
+        <div class="border-4 border-black rounded m-2 p-2 bg-gradient-to-b from-blue-50 to-blue-100">
+          <%=render partial:"trade_requests/trade_request",locals:{trade_request:trade_request,player:@player}%>
+        </div>
+        <%end%>
+      <%else%>
+        <%=render partial:"shared/none_p_tag"%>
+      <%end%>
+    </div>
+  </div>
+
+  <p class="text-2xl underline underline-offset-4">Trade Requests From Others</p>
+  <div class="text-center grid grid-cols-1 gap-1">
+    <div class="text-center m-4">
+      <%if @trade_requests_from_others.count>0%>
+        <%@trade_requests_from_others.each do |trade_request|%>
+          <%if trade_request.unresponded_to?%>
+            <div class="border-4 border-black rounded m-2 p-2 bg-gradient-to-b from-blue-50 to-blue-100">
+              <%=render partial:"trade_requests/trade_request",locals:{trade_request:trade_request,player:@player}%>
+            </div>
+          <%end%>
+        <%end%>
+      <%else%>
+        <%=render partial:"shared/none_p_tag"%>
+      <%end%>
+    </div>
+  </div>
+
+  <p class="text-2xl underline underline-offset-4">Pending Request For Funds</p>
+  <div class="text-center grid grid-cols-1 gap-1">
+    <div class="text-center m-4">
+      <%if @your_fund_requests.count>0%>
+        <%@your_fund_requests.each do |fund_request|%>
+          <div class="border-4 border-black rounded m-2 p-2 bg-gradient-to-b from-blue-50 to-blue-100">
+            <%=render partial:"funding_requests/funding_request",locals:{funding_request:fund_request,player:@player}%>
+          </div>
+        <%end%>
+      <%else%>
+        <%=render partial:"shared/none_p_tag"%>      
+      <%end%>
+    </div>
+  </div>
+
+  <p class="text-2xl underline underline-offset-4">Fund Requests From Others</p>
+  <div class="text-center grid grid-cols-1 gap-1">
+    <div class="text-center m-4">
+      <%if @others_fund_requests.count>0%>
+        <%@others_fund_requests.each do |fund_request|%>
+          <div class="border-4 border-black rounded m-2 p-2 bg-gradient-to-b from-blue-50 to-blue-100">
+            <%=render partial:"funding_requests/funding_request",locals:{funding_request:fund_request,player:@player}%>
+          </div>
+        <%end%>
+      <%else%>
+        <%=render partial:"shared/none_p_tag"%>
+      <%end%>
+    </div>
+  </div>
+
+  <div class="m-4">
+    <%= link_to "Return to Games Page", game_page_show_path(), class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-xl p-2"%>
+  </div>
+  
+</div>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @player_loyalty_role %>
+
+<div>
+  <%= link_to "Edit this player loyalty role", edit_player_loyalty_role_path(@player_loyalty_role) %> |
+  <%= link_to "Back to player loyalty roles", player_loyalty_roles_path %>
+
+  <%= button_to "Destroy this player loyalty role", @player_loyalty_role, method: :delete %>
+</div>

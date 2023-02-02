@@ -1,0 +1,114 @@
+<div id="<%= dom_id trade_request %>", class="grid grid-cols-1 text-center text-lg m-1">
+  <%@creator=trade_request.trade_player_roles.find_by(role_type:"creator").player%>
+
+  <%# Trade Request if the player created it%>
+  <%if @creator == @player%>
+    <%@trade_role=trade_request.trade_player_roles.where.not(player:@player).first.role_type%>
+    <%if @trade_role=="sender"%>
+      <%@trade_role_for_player="For them to send:"%>
+    <%else%>
+      <%@trade_role_for_player="For them to accept:"%>
+    <%end%>
+    <p>
+      Trade Proposed With:
+      <strong><%= trade_request.trade_player_roles.where.not(player:@player).first.player.house_name %></strong>
+    </p>
+    <p><%=@trade_role_for_player%></p>
+    <div>
+      <%trade_request.trade_request_resources.each do |trade_request_resource| %>
+        <%if trade_request_resource.trade_request_resource_type.downcase=="gold"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2">
+            <span><%=trade_request_resource.trade_request_resource_type.capitalize%>: <%=trade_request_resource.trade_request_resource_quantity%></span>
+          </div>
+        <%elsif trade_request_resource.trade_request_resource_type.downcase=="spy"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-stone-200 to-stone-400 m-2">
+            <span><%=trade_request_resource.trade_request_resource_type.capitalize%>: <%=trade_request_resource.trade_request_resource_quantity%></span>
+          </div>
+        <%elsif trade_request_resource.trade_request_resource_type.downcase=="soldier"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-red-300 to-red-500 m-2">
+            <span><%=trade_request_resource.trade_request_resource_type.capitalize%>: <%=trade_request_resource.trade_request_resource_quantity%></span>
+          </div>
+        <%else%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-blue-300 to-blue-500 m-2">
+            <span><%=trade_request_resource.trade_request_resource_type.capitalize%>: <%=trade_request_resource.trade_request_resource_quantity%></span>
+          </div>
+        <%end%>
+
+        
+      <%end%>
+    </div>
+    <%if trade_request.is_rejected?%>
+        <p class="bg-red-400 border-2 border-black rounded p-2 m-2">REJECTED!</p>
+    <%end%>
+    <div class="m-2">
+    
+    <%= link_to "Rescind Trade Request",  trade_request, class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-center text-lg m-2 p-2", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to rescind this request?"}%>
+    </div>
+  
+  <%# Trade Request if you did not create the request.%>
+  <%else%>
+    <%@trade_role=trade_request.trade_player_roles.where(player:@player).first.role_type%>
+    <%if @trade_role=="sender"%>
+      <%@trade_role_for_player=" requests you send:"%>
+    <%else%>
+      <%@trade_role_for_player=" hopes you will accept:"%>
+    <%end%>
+    <p>
+      <strong><%=@creator.house_name%> <%=@trade_role_for_player%></strong>
+    </p>
+    <p>
+      <%trade_request.trade_request_resources.each do |trade_request_resource| %>
+         <%if trade_request_resource.trade_request_resource_type.downcase=="gold"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2">
+            <span><%=trade_request_resource.trade_request_resource_type.capitalize%>: <%=trade_request_resource.trade_request_resource_quantity%></span>
+          </div>
+        <%elsif trade_request_resource.trade_request_resource_type.downcase=="spy"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-stone-200 to-stone-400 m-2">
+            <span><%=trade_request_resource.trade_request_resource_type.capitalize%>: <%=trade_request_resource.trade_request_resource_quantity%></span>
+          </div>
+        <%elsif trade_request_resource.trade_request_resource_type.downcase=="soldier"%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-red-300 to-red-500 m-2">
+            <span><%=trade_request_resource.trade_request_resource_type.capitalize%>: <%=trade_request_resource.trade_request_resource_quantity%></span>
+          </div>
+        <%else%>
+          <div class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-blue-300 to-blue-500 m-2">
+            <span><%=trade_request_resource.trade_request_resource_type.capitalize%>: <%=trade_request_resource.trade_request_resource_quantity%></span>
+          </div>
+        <%end%>
+      <%end%>
+    </p>
+    <%@acceptable=true%>
+    <%trade_request.trade_request_resources.each do |trade_request_resource| %>
+       <!--Performs check to see if the player has enough loyalty-->
+      <%if trade_request_resource.trade_request_resource_type.include? "loyalty"%>
+        <%@house_that_owns_loyalty= trade_request_resource.trade_request_resource_type.slice(0,trade_request_resource.trade_request_resource_type.index("loyalty")-1)%>
+       
+        <%if @player.how_much_loyalty(@house_that_owns_loyalty)<trade_request_resource.trade_request_resource_quantity%>
+          <%@acceptable=false%>
+        <%end%>
+      
+      <!--Performs check to see if the player has enough resources-->
+      <%else%>
+        <%if player.player_resources.exists?(resource_type:trade_request_resource.trade_request_resource_type)%>
+          <%if player.player_resources.find_by(resource_type:trade_request_resource.trade_request_resource_type).resource_quantity < trade_request_resource.trade_request_resource_quantity%>
+          <%@acceptable=false%>
+          <%end%>
+        <%else%>
+          <%@acceptable=false%>
+        <%end%>
+      <%end%>
+
+    <%end%>
+    <div class="inline-flex justify-center">
+      <%if trade_request.receiver==@player%>
+        <%@acceptable=true%>
+      <%end%>
+      <%if @acceptable%>
+        <%= button_to "Accept", trade_request_responses_path, class:"m-2 p-2 bg-gradient-to-b from-green-300 to-green-500 border-4 border-black rounded-lg text-xl p-2",params:{trade_request_response:{trade_request_id:trade_request.id,trade_response_type:"accept",trade_player_role_id:trade_request.trade_player_roles.where(player:@player).first.id}}, data: { turbo_confirm: "Are you sure you want to accept this request?"}%>
+        <%= button_to "Reject",  trade_request_responses_path, class:"m-2 p-2 bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-xl p-2",params:{trade_request_response:{trade_request_id:trade_request.id,trade_response_type:"reject",trade_player_role_id:trade_request.trade_player_roles.where(player:@player).first.id}}, data: { turbo_confirm: "Are you sure you want to reject this request?"}%>
+      <%else%>
+        <%= button_to "Insufficient resources-Reject",  trade_request_responses_path, class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-xl p-2",params:{trade_request_response:{trade_request_id:trade_request.id,trade_response_type:"reject",trade_player_role_id:trade_request.trade_player_roles.where(player:@player).first.id}}, data: { turbo_confirm: "Are you sure you want to reject this request?"}%>
+      <%end%>
+    </div>
+  <%end%>
+</div>

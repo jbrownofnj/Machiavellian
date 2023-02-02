@@ -1,0 +1,51 @@
+
+<div class="container mx-auto h-screen w-screen max-w-2xl text-center">
+    <div class="grid grid-cols-1 gap-1 text-center m-2">
+        <span class="text-lg underline">Player actions</span>
+        <%if @player.has_raised_army_this_round?%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You have already raised an army this round.</p>
+        <%elsif @player.player_resources&.where(resource_type:"soldier").count>0%>
+            <%= link_to "Raise Military Unit"  , new_raise_army_path,class:"bg-gradient-to-b from-indigo-300 to-indigo-500 border-4 border-black rounded-lg text-center text-lg" %>
+        <%else%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You need soldiers to raise armies.</p>
+        <%end%>
+        <%if @player.has_gathered_information_this_round?%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You have gathered information this round.</p>
+        <%elsif @player.game.players.count>1%>
+            <%= link_to "Gather Information",  new_gather_information_path, class:"bg-gradient-to-b from-indigo-300 to-indigo-500 border-4 border-black rounded-lg text-center text-lg" %>
+        <%else%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You need another player to gather information on.</p>
+        <%end%>
+        <%if @player.has_moved_a_military_unit_this_round?%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">Already moved a military unit this round.</p>
+        <%elsif @player.has_military_units?%>
+            <%= link_to "Command Military Unit"  , new_move_army_path, class:"bg-gradient-to-b from-indigo-300 to-indigo-500 border-4 border-black rounded-lg text-center text-lg" %>
+        <%else%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You have no military units to move.</p>
+        <%end%>
+        <%if @round.constructions.exists?(player:@player)%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">Construction already made this round.</p>
+        <%else%>
+            <%= link_to "Create Construction", new_construction_path,class:"bg-gradient-to-b from-indigo-300 to-indigo-500 border-4 border-black rounded-lg text-center text-lg" %>
+        <%end%>
+        <%if @player.has_unfunded_constructions?%>
+            <%if @player.can_ask_for_funding?%>
+                <%= link_to "Request Funding for a Construction", new_funding_request_path,class:"bg-gradient-to-b from-indigo-300 to-indigo-500 border-4 border-black rounded-lg text-center text-lg" %>
+            <%else%>
+                <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You have knocked on every door my lord.</p>
+            <%end%>
+        <%else%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You have no constructions to fund my lord!</p>
+        <%end%>
+        <%if @player.own_trade_requests_this_round.count>=3%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You already have three trades made or pending.</p>
+        <%elsif @player.game.players.count>1%>
+            <%= link_to "Request Trade", new_trade_request_path,class:"bg-gradient-to-b from-indigo-300 to-indigo-500 border-4 border-black rounded-lg text-center text-lg" %>
+        <%else%>
+            <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500">You need another player to trade with.</p>
+        <%end%>
+        <%= link_to "Return to Games Page", game_page_show_path(), class:"bg-gradient-to-b from-rose-300 to-rose-500  border-4 border-black rounded-lg text-xl m-4 p-2"%><br/>
+    </div>
+</div>
+
+

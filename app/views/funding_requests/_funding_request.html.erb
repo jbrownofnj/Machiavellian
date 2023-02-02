@@ -1,0 +1,45 @@
+<div id="<%= dom_id funding_request %>" class="grid grid-cols-1 gap-1">
+  <div>
+    <%funding_request.funding_request_resources&.each do |funding_request_resource|%>
+      <%=render partial:"funding_request_resources/funding_request_resource",locals:{funding_request_resource:funding_request_resource}%>
+    <%end%>
+    <%funding_request.funding_request_player_roles.each do |funding_request_player_role|%>
+      <%if funding_request_player_role.player_role=="owner"%>
+        <%=render partial:"funding_request_player_roles/funding_request_player_role",locals:{funding_request_player_role:funding_request_player_role,player:@player}%>
+      <%end%>
+    <%end%>
+  </div>
+  
+    <%if funding_request.construction.construction_type=="resource_generator_construction"%>
+      <%= render partial:"resource_generator_constructions/resource_generator_construction",locals:{resource_generator_construction:funding_request.construction.resource_generator_constructions.first}%>
+    <%elsif funding_request.construction.construction_type=="path_to_power_construction"%>
+      <%= render partial:"path_to_power_constructions/path_to_power_construction",locals:{path_to_power_construction:funding_request.construction.path_to_power_constructions.first}%>
+    <%end%>
+
+    <%if funding_request.owner == @player%>
+      <%= link_to "Rescind Request", funding_request, class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-center text-lg", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to rescind this request?"}%><br/><br/>
+      <%if funding_request.is_not_rejected==false%>
+        <p><strong class="bg-red-400 border-2 border-black rounded p-2">REJECTED!</strong></p>
+      <%end%>
+    <%else%>
+      <%@acceptable=true%>
+      <%funding_request.funding_request_resources&.each do |funding_request_resource| %>
+        <%if @player.player_resources.exists?(resource_type:funding_request_resource.funding_resource_type.downcase)%>
+          <%if @player.player_resources.find_by(resource_type:funding_request_resource.funding_resource_type.downcase).resource_quantity < funding_request_resource.funding_resource_amount%>
+            <%@acceptable=false%>
+          <%end%>
+        <%else%>
+          <%@acceptable=false%>
+        <%end%>  
+      <%end%>
+      <%if @acceptable%>
+      <div class="inline-flex justify-center">
+        <%= button_to "Accept", fundings_url, class:"inline-block bg-gradient-to-b from-green-300 to-green-500 border-4 border-black rounded-lg text-center text-lg m-2 p-2",params:[funding: {funding_request:funding_request}]%>
+        <%= button_to "Reject", fund_request_responses_url, class:"inline-block bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-center text-lg m-2 p-2",params:{fund_request_response:{funding_request_id:funding_request.id,funding_request_player_role_id:funding_request.funding_request_player_roles.find_by(player_role:"funder").id,funding_request_response_type:"reject"}},data: { turbo_method: :create, turbo_confirm: "Are you sure you want to rescind this request?"}%>
+      </div>
+      <%else%>
+        <%= button_to "Reject due to insufficient resources", fund_request_responses_url, class:"bg-red-400 border-2 border-black rounded m-2",params:{fund_request_response:{funding_request_id:funding_request.id,funding_request_player_role_id:funding_request.funding_request_player_roles.find_by(player_role:"funder").id,funding_request_response_type:"reject"}},data: { turbo_method: :create, turbo_confirm: "Are you sure you want to rescind this request?"}%>
+      <%end%>
+    <%end%>
+  
+</div>

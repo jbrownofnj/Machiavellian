@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @trade_player_role %>
+
+<div>
+  <%= link_to "Edit this trade player role", edit_trade_player_role_path(@trade_player_role) %> |
+  <%= link_to "Back to trade player roles", trade_player_roles_path %>
+
+  <%= button_to "Destroy this trade player role", @trade_player_role, method: :delete %>
+</div>

@@ -1,0 +1,9 @@
+<div class="container mx-auto h-screen w-screen max-w-2xl text-center">
+  <h1 class="text-xl text-center underline underline-offset-4 m-8">Create New Trade Request</h1>
+  <div class="grid grid-cols-1 m-2 gap-1">
+    <%= render "form",trade_request:@trade_request,number_of_trade_request_resources:@number_of_trade_request_resources%>
+  </div>
+  <div class="m-2 p-2 text-center">
+      <%= link_to "Back to actions", player_actions_path, class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg p-1 m-1 text-xl" %>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<%@player=@gather_information.player%>
+<%@last_round=@player.game.matches.last.rounds.second_to_last%>
+<%@has_funded_no_constructions_last_round=true%>
+
+
+<div class="container mx-auto h-full w-full">
+  <div class="grid grid-cols-1 gap-2 text-center border-4 border-black rounded-lg m-2 p-2">
+    <h1 class="text-xl underline underline-offset-4 text-center m-1 p-1">You have Learned that</h1><br/>
+
+    <p class="text-xl"><%=@player.house_name%> made the following trades last round:<p>
+    <%if @player.has_trades_last_round?%>
+      <%=render partial:"gather_informations/gather_information_last_round_trades"%>
+    <%else%>
+      <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500 p-2 m-2">No trades last round</p>    
+    <%end%>
+ 
+    <%=render partial:"gather_informations/gather_information_funded_constructions"%>
+    <div class="p-2 m-2">
+      <p class="text-xl"><%=@player.house_name%> has the following constructions:</p>
+      <%if @player.has_unfunded_constructions?%>        
+        <%@player.unfunded_constructions&.each do |construction|%>
+          <%if construction.construction_type=="resource_generator_construction"%>
+            <div class="border-4 border-black rounded-lg p-2 m-2 bg-gradient-to-b from-blue-50 to-blue-100">
+              <%=render partial:"resource_generator_constructions/resource_generator_construction",locals:{resource_generator_construction:construction.resource_generator_constructions.first}%>
+            </div>
+          <%end%>
+          <%if construction.construction_type=="path_to_power_construction"%>
+            <div class="border-4 border-black rounded-lg p-2 m-2 bg-gradient-to-b from-blue-50 to-blue-100">
+              <%=render partial:"path_to_power_constructions/path_to_power_construction",locals:{path_to_power_construction:construction.path_to_power_constructions.first}%>
+            </div>
+          <%end%>
+        <%end%>
+      <%else%>
+        <p class="bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-lg hover:bg-gray-700 hover:text-red-500 p-2 m-2">Has no constructions</p>  
+      <%end%>
+    </div>
+    <%= link_to "Main Page (NO RETURNING!)", game_page_show_path, class:"bg-teal-200 border-4 border-black rounded-lg p-2 m-2" %>
+  </div>
+</div>

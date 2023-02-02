@@ -1,0 +1,4 @@
+    <span class="text-2xl"><strong>Mines:</strong><%="#{@player.resource_generators.where(resource_generator_type:"mine").count}"%></span><br/>
+    <span class="text-2xl"><strong>Castles:</strong><%="#{@player.resource_generators.where(resource_generator_type:"castle").count}"%></span><br/>
+    <span class="text-2xl"><strong>Embassies:</strong><%="#{@player.resource_generators.where(resource_generator_type:"embassy").count}"%></span>
+    

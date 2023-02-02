@@ -1,0 +1,2 @@
+module GatherInformationsHelper
+end

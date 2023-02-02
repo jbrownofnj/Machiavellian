@@ -1,0 +1,21 @@
+<nav class="flex items-center justify-between flex-wrap bg-gray-800 p-4">
+  <div class="flex items-center flex-shrink-0 text-white">
+    <%= link_to "Home", root_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white rounded-md text-sm font-medium" %>
+  </div>
+  <%if User.find_by(id: session[:user_id])%>
+    <%@userLoggedIn=User.find(session[:user_id])%>
+    <div class="flex items-center flex-shrink-0 text-white">
+      <%= link_to "Log Out - #{@userLoggedIn.user_email}", logout_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white rounded-md text-sm font-medium" %>
+    </div>
+    <div class="flex items-center flex-shrink-0 text-white">
+      <%= link_to "Game Page", game_pages_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white rounded-md text-sm font-medium" %>
+    </div>
+  <%else%>
+  <div class="flex items-center flex-shrink-0 text-white">
+    <%= link_to "Sign-up", sign_up_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white rounded-md text-sm font-medium" %>
+  </div>
+    <div class="flex items-center flex-shrink-0 text-white">
+      <%= link_to "Log-in", login_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white rounded-md text-sm font-medium" %>
+    </div>
+  <%end%>
+</nav>

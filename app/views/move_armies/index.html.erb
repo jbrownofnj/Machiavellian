@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Move armies</h1>
+
+<div id="move_armies">
+  <% @move_armies.each do |move_army| %>
+    <%= render move_army %>
+    <p>
+      <%= link_to "Show this move army", move_army %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New move army", new_move_army_path %>

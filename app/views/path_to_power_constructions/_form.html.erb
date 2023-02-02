@@ -1,0 +1,59 @@
+<%= form_with(model: path_to_power_construction) do |form| %>
+  <% if path_to_power_construction.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(path_to_power_construction.errors.count, "error") %> prohibited this Path To Power from being saved:</h2>
+      <ul>
+        <% path_to_power_construction.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div >
+    <%= form.hidden_field :path_to_power_type,value:"wealth" %>
+  </div>
+
+  <div>
+    <%= form.submit "Wealth", class:"bg-teal-200 border-4 border-black rounded-lg p-3 text-xl"%>
+  </div>
+<% end %>
+<%= form_with(model: path_to_power_construction) do |form| %>
+  <% if path_to_power_construction.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(path_to_power_construction.errors.count, "error") %> prohibited this Path To Power from being saved:</h2>
+
+      <ul>
+        <% path_to_power_construction.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div >
+    <%= form.hidden_field :path_to_power_type,value:"war" %>
+  </div>
+
+  <div>
+    <%= form.submit "War", class:"bg-teal-200 border-4 border-black rounded-lg p-3 text-xl"%>
+  </div>
+<% end %>
+<%= form_with(model: path_to_power_construction) do |form| %>
+  <% if path_to_power_construction.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(path_to_power_construction.errors.count, "error") %> prohibited this Path To Power from being saved:</h2>
+
+      <ul>
+        <% path_to_power_construction.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div >
+    <%= form.hidden_field :path_to_power_type,value:"subterfuge" %>
+  </div>
+
+  <div>
+    <%= form.submit "Subterfuge", class:"bg-teal-200 border-4 border-black rounded-lg p-3 text-xl"%>
+  </div>
+<% end %>

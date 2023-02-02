@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player: one
+  funding_request: one
+  player_role: MyString
+
+two:
+  player: two
+  funding_request: two
+  player_role: MyString

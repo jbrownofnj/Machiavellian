@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Trade requests</h1>
+
+<div id="trade_requests">
+  <% @trade_requests.each do |trade_request| %>
+    <%= render trade_request %>
+    <p>
+      <%= link_to "Show this trade request", trade_request %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New trade request", new_trade_request_path %>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @funding_request_resource %>
+
+<div>
+  <%= link_to "Edit this funding request resource", edit_funding_request_resource_path(@funding_request_resource) %> |
+  <%= link_to "Back to funding request resources", funding_request_resources_path %>
+
+  <%= button_to "Destroy this funding request resource", @funding_request_resource, method: :delete %>
+</div>

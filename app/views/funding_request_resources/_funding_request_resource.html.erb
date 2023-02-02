@@ -1,0 +1,28 @@
+<div id="<%= dom_id funding_request_resource %>" class="text-xl">
+<%@test=funding_request_resource%>
+
+  <%case funding_request_resource.funding_resource_type%>
+    <%when "gold"%>
+     <p class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2">
+        <%= funding_request_resource.funding_resource_type.capitalize %>:
+        <%= funding_request_resource.funding_resource_amount %>
+      </p>
+    <%when "soldier"%>
+      <p class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-red-300 to-red-500 m-2">
+        <%= funding_request_resource.funding_resource_type.capitalize %>:
+        <%= funding_request_resource.funding_resource_amount %>
+      </p>
+    <%when "spy"%>
+      <p class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-stone-200 to-stone-400 m-2">
+        <%= funding_request_resource.funding_resource_type.capitalize %>:
+        <%= funding_request_resource.funding_resource_amount %>
+      </p>
+    <%else%>
+      <p class="border-4 border-black rounded-lg text-xl bg-gradient-to-b from-yellow-300 to-yellow-500 m-2">
+        <%= funding_request_resource.funding_resource_type.capitalize %>:
+        <%= funding_request_resource.funding_resource_amount %>
+      </p>
+  <%end%>
+  
+   
+</div>

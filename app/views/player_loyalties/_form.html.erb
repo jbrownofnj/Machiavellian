@@ -1,0 +1,22 @@
+<%= form_with(model: player_loyalty) do |form| %>
+  <% if player_loyalty.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(player_loyalty.errors.count, "error") %> prohibited this player_loyalty from being saved:</h2>
+
+      <ul>
+        <% player_loyalty.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :player_loyalty_quantity, style: "display: block" %>
+    <%= form.number_field :player_loyalty_quantity %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,32 @@
+<%= form_with(model: trade_player_role) do |form| %>
+  <% if trade_player_role.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(trade_player_role.errors.count, "error") %> prohibited this trade_player_role from being saved:</h2>
+
+      <ul>
+        <% trade_player_role.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :player_id, style: "display: block" %>
+    <%= form.text_field :player_id %>
+  </div>
+
+  <div>
+    <%= form.label :trade_request_resource_id, style: "display: block" %>
+    <%= form.text_field :trade_request_resource_id %>
+  </div>
+
+  <div>
+    <%= form.label :role_type, style: "display: block" %>
+    <%= form.text_field :role_type %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

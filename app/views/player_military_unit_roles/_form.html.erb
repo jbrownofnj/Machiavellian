@@ -1,0 +1,32 @@
+<%= form_with(model: player_military_unit_role) do |form| %>
+  <% if player_military_unit_role.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(player_military_unit_role.errors.count, "error") %> prohibited this player_military_unit_role from being saved:</h2>
+
+      <ul>
+        <% player_military_unit_role.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :player_id, style: "display: block" %>
+    <%= form.text_field :player_id %>
+  </div>
+
+  <div>
+    <%= form.label :military_unit_id, style: "display: block" %>
+    <%= form.text_field :military_unit_id %>
+  </div>
+
+  <div>
+    <%= form.label :military_unit_role_type, style: "display: block" %>
+    <%= form.text_field :military_unit_role_type %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

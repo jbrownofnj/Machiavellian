@@ -1,0 +1,85 @@
+<%# Boolean and Arrays of military units %>
+<%@your_lands_have_units=false%>
+<%@other_lands_have_your_units=false%>
+<%@you_have_units_being_raised=false%>
+<%@units_on_your_lands=[]%>
+<%@units_on_other_lands=[]%>
+<%@units_being_raised_next_turn=[]%>
+
+<%# Pushes your units on your land into the  units_on_your_land array %>
+<%@player_military_unit_roles&.each do |player_military_unit_role|%> 
+    <%if player_military_unit_role.military_unit_role_type=="houser" && player_military_unit_role.military_unit.owner==@player%>
+        <%@units_on_your_lands.push(player_military_unit_role.military_unit)%>
+        <%@your_lands_have_units=true%>
+    <%end%> 
+<%end%>
+
+<%# Pushes others units on your land into the  units_on_your_land array %>
+<%@player_military_unit_roles&.each do |player_military_unit_role|%> 
+    <%if player_military_unit_role.military_unit_role_type=="houser" && player_military_unit_role.military_unit.owner!=@player%>
+        <%@units_on_your_lands.push(player_military_unit_role.military_unit)%>
+        <%@your_lands_have_units=true%>
+    <%end%>  
+<%end%>
+
+<%# Pushes your units on other players lands into the units_on_other_lands array %>
+<%@player.player_military_unit_roles&.each do |player_military_unit_role|%> 
+    <%if player_military_unit_role.military_unit_role_type=="owner" && player_military_unit_role.military_unit.houser != @player%>
+        <%@units_on_other_lands.push(player_military_unit_role.military_unit)%>
+        <%@other_lands_have_your_units=true%>
+          
+    <%end%>  
+<%end%> 
+
+<%# Pushes the military units you are going to raise next round into the units being raised next turn array.%>
+<%@player.player_actions&.each do |action|%> 
+    <%if action.action_type=="raise_army" && action.round == @round%>
+        <%@units_being_raised_next_turn.push(action.raise_armies.first)%> 
+        <%@you_have_units_being_raised=true%>
+    <%end%>  
+<%end%>    
+
+<div class="container mx-auto h-screen w-screen max-w-2xl text-center">
+    <%# Shows Units on your lands if you have any and a message if you dont.%>
+    <div class="text-center grid grid-cols-1 gap-1">
+        <p class="text-xl underline underline-offset-4 text-center">Units on your lands</p>
+        <%if @your_lands_have_units%>
+            <p class="text-xl underline underline-offset-4 text-center">Units on <%=@player.house_name%> Lands</p>
+            <%if !@player.is_not_routed%>
+                <p class="text-xl underline bg-red-500 border-2 rounded-lg border-black p-1"> "YOU ARE ROUTED!" </p>
+            <%end%>
+            <%@units_on_your_lands.each do |local_military_unit|%>
+                <%=render partial:"military_units/military_unit",locals:{military_unit:local_military_unit}%>
+            <%end%>
+        <%else%>
+            <p class="bg-gradient-to-b from-red-100 to-red-300 border-4 border-black rounded-lg text-center text-lg">No units are on your lands.</p>
+        <%end%>
+    </div>
+   
+    <%# Shows your units on other lands if you have any and a message if you dont.%>
+    <div class="text-center grid grid-cols-1 gap-1">
+        <p class="text-xl underline underline-offset-4">Your Units on other lands</p>
+        <%if @other_lands_have_your_units%>
+            <%@units_on_other_lands.each do |away_military_unit|%>
+                <%=render partial:"military_units/military_unit",locals:{military_unit:away_military_unit}%>
+            <%end%>
+        <%else%>
+            <p class="bg-gradient-to-b from-red-100 to-red-300 border-4 border-black rounded-lg text-center text-lg">You have no units on other lands.</p>
+        <%end%>
+    </div>
+
+    <%# Shows your units on other lands if you have any and a message if you dont.%>
+    <div class="text-center grid grid-cols-1 gap-1">
+        <p class="text-xl underline underline-offset-4 text-center">Units being raised next turn</p>
+        <%if @you_have_units_being_raised%>
+            <%@units_being_raised_next_turn.each do |raise_army|%>
+                <%=render partial:"raise_armies/raise_army",locals:{raise_army: raise_army}%>
+            <%end%>
+        <%else%>
+            <p class="bg-gradient-to-b from-red-100 to-red-300 border-4 border-black rounded-lg text-center text-lg">No units currently being raised.</p>
+        <%end%>    
+    </div><br/>
+    <%= link_to "Return to Games Page", game_page_show_path(), class:"bg-gradient-to-b from-red-300 to-red-500 border-4 border-black rounded-lg text-xl"%><br/>
+
+</div>          
+

@@ -1,0 +1,10 @@
+<%if flash[:alert]%>
+<div class="text-red-500 hover:bg-gray-700 hover:text-white text-lg font-medium bg-gray-800 text-center">
+    <%=flash[:alert]%>
+</div>
+<%end%>
+<%if flash[:notice]%>
+<div class="bg-gray-800 text-white hover:bg-gray-700 hover:text-white text-lg font-medium text-center">
+    <%=flash[:notice]%><br/>
+</div>
+<%end%>

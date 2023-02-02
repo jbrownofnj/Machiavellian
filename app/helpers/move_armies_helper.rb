@@ -1,0 +1,2 @@
+module MoveArmiesHelper
+end

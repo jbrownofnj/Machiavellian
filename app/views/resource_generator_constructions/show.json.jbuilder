@@ -1,0 +1,1 @@
+json.partial! "resource_generator_constructions/resource_generator_construction", resource_generator_construction: @resource_generator_construction

@@ -1,0 +1,17 @@
+   <%= form_with model: @user, url:sign_up_path do |form| %>
+      <% if @user.errors.any?%>
+      <div>
+        <%@user.errors.full_messages do |message|%>
+          <div> <%message%> </div>
+        <%end%>
+      </div>
+      <%end%>
+        <%= form.label :user_email, class:"text-xl" %><br/>
+        <%= form.text_field :user_email, class:"border-solid border-black rounded-lg border-2 text-xl" %><br/>
+        <%= form.label :password, class:"text-xl" %><br/>
+        <%= form.password_field :password, class:"border-solid border-black rounded-lg border-2 text-xl" %><br/>
+        <%= form.label :password_confirmation,"Password Confirmation", class:"text-xl" %><br/>
+        <%= form.password_field :password_confirmation, class:"border-solid border-black rounded-lg border-2 text-xl" %><br/>
+        <%= form.submit "Sign-up", class:"border-solid border-black rounded-lg border-2 text-xl p-2 m-2 bg-gradient-to-b from-teal-200 to-teal-500"%>
+      
+    <% end %>

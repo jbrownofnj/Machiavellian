@@ -1,0 +1,2 @@
+module PlayerLoyaltiesHelper
+end

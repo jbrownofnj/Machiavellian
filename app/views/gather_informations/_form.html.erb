@@ -1,0 +1,42 @@
+<%= form_for(@gather_information) do |form| %>
+  <% if @gather_information.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@gather_information.errors.count, "error") %> prohibited this player_action from being saved:</h2>
+      <ul>
+        <% @gather_information.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class=" border-4 border-rounded border-black p-1 m-1 rounded-lg">
+    <%@gather_info_options_array=[["military_information","Military Information"],["resources","Current Resources"],["trades","Player Trades and Constructions Funded"]]%>
+    <%if @game.matches.last.rounds.count<2%>
+          <%@gather_info_options_array=[["military_information","Military Information"],["resources","Current Resources"],["trades","Trades Made Last Round"]]%>
+    <%end%>
+    <%=form.collection_radio_buttons :information_type,@gather_info_options_array,:first,:last,{checked:["military_information","Military Information"]}, boolean_style: :inline  do |unit_type_choice| %>
+        <%=unit_type_choice.radio_button%>
+        <%= unit_type_choice.label class:"text-2xl"%>
+        <br/>
+    <%end%>
+  </div>
+   <div class=" border-4 border-black p-1 m-1 rounded-lg">
+   <%@players_who_are_not_you=[]%>
+   <%@game.players.each do |player|%>
+     <%if player != @player%>
+      <%@players_who_are_not_you.push(player)%>
+     <%end%>
+   <%end%>
+    <%=form.collection_radio_buttons :player_id,@players_who_are_not_you,:id,:house_name do |unit_type_choice| %>
+        <%=unit_type_choice.radio_button%>
+        <%= unit_type_choice.label class:"text-xl"%>
+        <br/>
+    <%end%>
+  </div>
+   
+
+  <div>
+    <%= form.submit class:"bg-teal-200 border-4 border-black rounded-lg p-1 m-1" %>
+  </div>
+<% end %>
