@@ -17,5 +17,7 @@ To try a local copy of Machiavellian create a new directory and then navigate in
 
 # Live App
 If you would like to see how to app runs when deployed there is a demo site here:
+
 https://shark-app-due3j.ondigitalocean.app/
+
 Once you log in and create a new user you will find you are already in a game. This is an example game with fake users. You can feel free to delete this game if you like. This game is meant to be played in person with 6-10 friends using your phones to access the site as a game tool. 
