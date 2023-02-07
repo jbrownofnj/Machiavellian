@@ -4,7 +4,6 @@ class RegistrationsController < ApplicationController
   end
   def create
     @user=User.new(user_email:registrations_params[:user_email].downcase,password:registrations_params[:password])
-    pry
     if params[:user][:password]==params[:user][:password_confirmation]
       if @user.save
         @user.make_example_game()
