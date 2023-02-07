@@ -5,8 +5,40 @@ class User < ApplicationRecord
     has_many :user_game_roles
     validates_uniqueness_of :user_email
     validates_format_of :user_email, with: URI::MailTo::EMAIL_REGEXP
-    validates :password, confirmation:true
-    validates :password_confirmation, presence: true
+    validate :password_lower_case
+    validate :password_uppercase
+    validate :password_special_char
+    validate :password_contains_number
+    validate :password_length
+
+    def password_length
+        return if password.length>7
+        errors.add :password, " Your password needs to be at least 8 characters long"
+    end
+
+    def password_uppercase
+        return if !!password.match(/\p{Upper}/)
+        errors.add :password, ' Your password needs at least one uppercase letter '
+    end
+
+    def password_lower_case
+        return if !!password.match(/\p{Lower}/)
+        errors.add :password, ' Your password needs at least one lowercase letter '
+    end
+
+    def password_special_char
+        special = "?<>',?[]}{=-)(*&^%$#`~{}!"
+        regex = /[#{special.gsub(/./){|char| "\\#{char}"}}]/
+        return if password =~ regex
+        errors.add :password, ' Your password needs at least one special character '
+    end
+
+    def password_contains_number
+        return if password.count("0-9") > 0
+        errors.add :password, ' Your password needs at least one number '
+    end
+
+
     def make_example_game()
         @testuser2=User.find_by(user_email:"testuser2@gmail.com")
         @testuser3=User.find_by(user_email:"testuser3@gmail.com")
@@ -63,6 +95,7 @@ class User < ApplicationRecord
         end
 
     end
+
     def has_no_unfinished_games?
         self.games&.each do |game|
             if game.finished==false
