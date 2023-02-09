@@ -25,15 +25,9 @@ class ConstructionsController < ApplicationController
   # POST /constructions or /constructions.json
   def create
     @construction = Construction.new(construction_params)
-    @is_unique_type=true
-    @player.constructions&.each do |construction|
-      if construction.construction_type == @construction.construction_type && construction.is_funded != false
-        @is_unique_type=false
-      end
-    end
-    
     respond_to do |format|
-      if @is_unique_type && @construction.save
+      #Checks that the player has no constructions of that type
+      if @player.has_no_constructions_of_type?(@construction) && @construction.save
         format.html { redirect_to construction_url(@construction), notice: "We shall begin work at once my lord!" }
         format.json { render :show, status: :created, location: @construction }
       else

@@ -289,4 +289,14 @@ class Player < ApplicationRecord
     has_trades_last_round
   end
 
+  def has_no_constructions_of_type?(new_construction)
+    unique=true
+    self.constructions&.each do |construction|
+      if (construction.construction_type == new_construction.construction_type) && construction.is_funded == false
+        unique=false
+      end
+    end
+    unique
+  end
+
 end
