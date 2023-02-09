@@ -3,13 +3,14 @@ class TradePlayerRolesController < ApplicationController
   before_action :set_player, only:[:index]
   before_action :set_game, only:[:index]
   before_action :logged_in?, only:[:index,:show,:new,:edit,:create,:update,:destroy]
-  before_action :is_admin?, only:[:show,:new,:edit,:update,:destroy]
+  before_action :is_admin?, only:[:show,:new,:edit,:create,:update,:destroy]
   
   # GET /trade_player_roles or /trade_player_roles.json
   def index
     @trade_player_roles = @player.trade_player_roles
     @funding_request_player_roles=@player.funding_request_player_roles
     @round=@game.matches.last.rounds.last
+    #prepares different kinds of trade requests for index.erb.html
     @trade_requests_you_created=[]
     @trade_requests_from_others=[]
     @your_fund_requests=[]
