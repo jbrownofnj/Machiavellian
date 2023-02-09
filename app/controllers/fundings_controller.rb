@@ -29,19 +29,24 @@ class FundingsController < ApplicationController
     respond_to do |format|
       if @response.save
         @funding_request.funding_request_resources&.each do |resource|
+          @resource=resource
           #Determines if a funding of a given type are present already to add to that instead of making a new one.
           if @funding_request.construction.fundings&.find_by(funding_resource_type:resource.funding_resource_type.downcase)
             #Determines of the funder has enough of the given reasource.
             if @funder.has_enough_resource(resource.funding_resource_type,resource.funding_resource_amount)
-              existing_fund=@funding_request.construction.fundings.find_by(funding_resource_type:resource.funding_resource_type)
-              existing_fund.update(funding_resource_amount:existing_fund.funding_resource_amount+resource.funding_resource_amount)
+              @existing_fund=@funding_request.construction.fundings.find_by(funding_resource_type:resource.funding_resource_type)
+              @existing_fund.update(funding_resource_amount:@existing_fund.funding_resource_amount+resource.funding_resource_amount)
               @funder.lose_resource(resource.funding_resource_type.downcase,resource.funding_resource_amount)
             else
+            
                 @response.destroy
                 format.html { redirect_to game_page_show_path and return}
             end
-          else   
-            newfunding=Funding.create(construction:@funding_request.construction, funding_resource_type:resource.funding_resource_type.downcase, funding_resource_amount:resource.funding_resource_amount)
+          elsif @funder.has_enough_resource(resource.funding_resource_type,resource.funding_resource_amount)  
+            @newfunding=Funding.create(construction:@funding_request.construction, funding_resource_type:resource.funding_resource_type.downcase, funding_resource_amount:resource.funding_resource_amount)
+            @funder.lose_resource(resource.funding_resource_type.downcase,resource.funding_resource_amount)
+          else
+            format.html { redirect_to game_page_show_path, notice: "Something went wrong my lord!" }
           end
         end
         format.html { redirect_to game_page_show_path, notice: "Good choice my lord" }

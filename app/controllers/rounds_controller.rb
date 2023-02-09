@@ -209,7 +209,8 @@ class RoundsController < ApplicationController
   def finish_resource_generator_constructions()
     @game.players.each do |player|
       player.constructions&.each do |construction|
-        if construction.is_funded
+        if construction.is_funded && construction.funded==false          
+          construction.update(funded:true)
           resource_generator_type=construction.resource_generator_constructions.first.resource_generator_type
           construction_owner=construction.player
           ResourceGenerator.create(player:construction_owner,resource_generator_type:resource_generator_type)

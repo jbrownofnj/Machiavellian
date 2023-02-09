@@ -26,7 +26,7 @@ class ResourceGeneratorConstructionsController < ApplicationController
   def create
     @construction=Construction.new(construction_type:"resource_generator_construction",player:@player,round:@game.matches.last.rounds.last)
     
-    if @construction.save
+    if @player.has_no_constructions_of_type?(@construction) && @construction.save
       @resource_generator_construction=ResourceGeneratorConstruction.new(construction:@construction,resource_generator_type:resource_generator_construction_params[:resource_generator_type].downcase)
       if @resource_generator_construction.save
         redirect_to game_page_show_path

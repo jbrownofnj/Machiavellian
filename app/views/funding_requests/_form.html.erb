@@ -10,10 +10,10 @@
   <% end %>
   <%@player_constructions=[]%>
   <%@player.constructions.each do |construction|%>
-    <%if construction.construction_type=="resource_generator_construction" && construction.is_funded != true%>
-      <%@player_constructions.push(construction.resource_generator_constructions.first.resource_generator_type.capitalize)%> 
-    <%elsif construction.construction_type=="path_to_power_construction" && construction.is_funded != true%>
-      <%@player_constructions.push(construction.path_to_power_constructions.first.path_to_power_type.capitalize)%> 
+    <%if construction.construction_type=="resource_generator_construction" && construction.is_funded != true && construction.funded==false%>
+      <%@player_constructions.push(construction.resource_generator_constructions.last.resource_generator_type.capitalize)%> 
+    <%elsif construction.construction_type=="path_to_power_construction" && construction.is_funded != true && construction.funded==false%>
+      <%@player_constructions.push(construction.path_to_power_constructions.last.path_to_power_type.capitalize)%> 
     <%end%>
   <%end%>
   <%@house_names=[]%>
@@ -23,6 +23,7 @@
     <%end%>
   <%end%>
   <div>
+
     <%= form.label :construction_resource_ptp_type, "Choose A Construction:", class:"text-xl m-2"%>
     <%= form.select :construction_resource_ptp_type, @player_constructions %>
   </div>

@@ -6,7 +6,8 @@ class ConstructionsController < ApplicationController
   
   # GET /constructions or /constructions.json
   def index
-    @constructions = @player.constructions
+    @constructions = @player.constructions&.where(funded:false)
+    
   end
 
   # GET /constructions/1 or /constructions/1.json
@@ -26,8 +27,7 @@ class ConstructionsController < ApplicationController
   def create
     @construction = Construction.new(construction_params)
     respond_to do |format|
-      #Checks that the player has no constructions of that type
-      if @player.has_no_constructions_of_type?(@construction) && @construction.save
+      if @construction.save
         format.html { redirect_to construction_url(@construction), notice: "We shall begin work at once my lord!" }
         format.json { render :show, status: :created, location: @construction }
       else

@@ -40,7 +40,6 @@ class TradePlayerRolesController < ApplicationController
         @others_fund_requests.push(role.funding_request)
       end
     end
-
   end
 
   # GET /trade_player_roles/1 or /trade_player_roles/1.json

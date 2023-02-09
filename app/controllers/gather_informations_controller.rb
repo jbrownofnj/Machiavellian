@@ -1,7 +1,7 @@
 class GatherInformationsController < ApplicationController
   before_action :set_game, only: [:new,:create]
   before_action :set_player, only: [:new,:create]
-  before_action :is_admin?, only:[:index,:show,:edit,:update,:destroy]
+  before_action :is_admin?, only:[:index,:edit,:update,:destroy]
   before_action :logged_in?, only:[:index,:show,:edit,:new,:create,:update,:destroy]
   # GET /gather_informations or /gather_informations.json
   def index

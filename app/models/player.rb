@@ -95,7 +95,8 @@ class Player < ApplicationRecord
   end
 
   def lose_resource(resource_type,resource_amount)
-    if self.player_resources.where(resource_type:resource_type)
+
+    if self.player_resources.where(resource_type:resource_type).count>0
       if self.player_resources.find_by(resource_type:resource_type).resource_quantity > resource_amount
         @player_resource=self.player_resources.find_by(resource_type:resource_type)
         @player_resource.update(resource_quantity:@player_resource.resource_quantity-resource_amount)
@@ -244,7 +245,7 @@ class Player < ApplicationRecord
 
   def has_unfunded_constructions?
     self.constructions&.each do |construction|
-      if construction.is_funded==false
+      if construction.is_funded==false && construction.funded==false
         return true
       end
     end
@@ -292,7 +293,10 @@ class Player < ApplicationRecord
   def has_no_constructions_of_type?(new_construction)
     unique=true
     self.constructions&.each do |construction|
-      if (construction.construction_type == new_construction.construction_type) && construction.is_funded == false
+      ##checks if construction exists and its not funded by db and also by the is_funded function. This is needed
+      #so that the constructions that have already been funded are not counted from previous rounds when funding them was
+      #cheaper.
+      if (construction.construction_type == new_construction.construction_type) && construction.is_funded == false && construction.funded==false
         unique=false
       end
     end
