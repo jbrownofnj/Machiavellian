@@ -19,12 +19,9 @@ class ApplicationController < ActionController::Base
     end
 
     def is_admin?
-        @User=User.find_by(id:session[:user_id])
-        if @User
-            return @User.is_admin
-        else
-            return false
-        end
+        @admin_user=User.find(session[:user_id])
+        flash[:notice]="Admin only process."
+        redirect_to root_path, status: :unauthorized unless @admin_user.is_admin
     end
    
 
