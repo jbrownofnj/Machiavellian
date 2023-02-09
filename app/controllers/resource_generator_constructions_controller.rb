@@ -3,7 +3,7 @@ class ResourceGeneratorConstructionsController < ApplicationController
   before_action :set_player,only: [:create]
   before_action :set_game,only: [:create]
   before_action :logged_in?, only:[:index,:show,:new,:edit,:create,:update,:destroy]
-  before_action :is_admin?, only:[:index,:show,:new,:edit,:update,:destroy]
+  before_action :is_admin?, only:[:index,:show,:edit,:update,:destroy]
   # GET /resource_generator_constructions or /resource_generator_constructions.json
   def index
     @resource_generator_constructions = ResourceGeneratorConstruction.all

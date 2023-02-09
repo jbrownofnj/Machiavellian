@@ -3,7 +3,7 @@ class PathToPowerConstructionsController < ApplicationController
   before_action :set_player,only: [:create]
   before_action :set_game,only: [:create]
   before_action :logged_in?, only:[:index,:show,:new,:edit,:create,:update,:destroy]
-  before_action :is_admin?, only:[:index,:show,:new,:edit,:update,:destroy]
+  before_action :is_admin?, only:[:index,:show,:edit,:update,:destroy]
   # GET /path_to_power_constructions or /path_to_power_constructions.json
   def index
     @path_to_power_constructions = PathToPowerConstruction.all
