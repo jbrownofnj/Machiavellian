@@ -39,13 +39,18 @@ class FundingRequestsController < ApplicationController
       when "Subterfuge"
         @construction_type="path_to_power_construction"
     end
-
+      #Checks to see that if they are funding a resource generator and if so that they are doing so with gold.
     if @construction_type=="resource_generator_construction" && funding_request_params[:resource_type].downcase=="gold"
+      #finds resource generator constructions. There should only be one but this is set for potentially allowing many
+      #resource generator construction in the future.
       @player_rg_constructions=@player.constructions.where(construction_type:"resource_generator_construction")
       @player_rg_constructions.each do |player_construction|
         if player_construction.resource_generator_constructions.first.resource_generator_type == funding_request_params[:construction_resource_ptp_type].downcase
+          
           @funding_request = FundingRequest.new(round:@game.matches.last.rounds.last,construction:player_construction )
+          
           respond_to do |format|
+            #Check to see that you have not asked this player for funds for this construction on this round
             if @funding_request.unique_funder_for_turn(@game.players.find_by(house_name:funding_request_params[:player])) && @funding_request.save
               @player_giving_funds=FundingRequestPlayerRole.new(funding_request:@funding_request,player:@game.players.find_by(house_name:funding_request_params[:player]),player_role:"funder")
               @player_accepting_funds=FundingRequestPlayerRole.new(funding_request:@funding_request,player:@player,player_role:"owner")
@@ -57,15 +62,15 @@ class FundingRequestsController < ApplicationController
                   format.html { redirect_to game_page_show_path, notice: "We await a responce my lord." }
                   format.json { render :show, status: :created, location: @funding_request }
                 else
-                  @player_giving_funds.destroy
-                  @player_accepting_funds.destroy
-                  @funding_request.destroy
+                  @player_giving_funds&.destroy
+                  @player_accepting_funds&.destroy
+                  @funding_request&.destroy
                   format.html { render :new, status: :unprocessable_entity, alert: "Sorry something went wrong my lord!" }
                   format.json { render json: @funding_request.errors, status: :unprocessable_entity }
                 end
                
               else
-                @funding_request.destroy
+                @funding_request&.destroy
                 format.html { render :new, status: :unprocessable_entity, alert: "Sorry something went wrong my lord!" }
                 format.json { render json: @funding_request.errors, status: :unprocessable_entity }
               end
@@ -78,11 +83,14 @@ class FundingRequestsController < ApplicationController
         end
       end
     elsif @construction_type=="path_to_power_construction"
+      #finds resource generator constructions. There should only be one but this is set for potentially allowing many
+      #resource generator construction in the future.
       @player_rg_constructions=@player.constructions.where(construction_type:"path_to_power_construction")
       @player_rg_constructions.each do |player_construction|
         if player_construction.path_to_power_constructions.first.path_to_power_type == funding_request_params[:construction_resource_ptp_type].downcase
           @funding_request = FundingRequest.new(round:@game.matches.last.rounds.last,construction:player_construction )
           respond_to do |format|
+            #Check to see that you have not asked this player for funds for this construction on this round
             if @funding_request.unique_funder_for_turn(@game.players.find_by(house_name:funding_request_params[:player])) && @funding_request.save
               @player_giving_funds=FundingRequestPlayerRole.new(funding_request:@funding_request,player:@game.players.find_by(house_name:funding_request_params[:player]),player_role:"funder")
               @player_accepting_funds=FundingRequestPlayerRole.new(funding_request:@funding_request,player:@player,player_role:"owner")
@@ -92,11 +100,14 @@ class FundingRequestsController < ApplicationController
                   format.html { redirect_to game_page_show_path,  notice: "We await a responce my lord." }
                   format.json { render :show, status: :created, location: @funding_request }
                 else
+                  @funding_request_resource&.destroy
                   format.html { render :new, status: :unprocessable_entity, notice: "Sorry something went wrong my lord!" }
                   format.json { render json: @funding_request.errors, status: :unprocessable_entity }
                 end
               else
-                @funding_request.destroy
+                @player_accepting_funds&.destroy
+                @player_giving_funds&.destroy
+                @funding_request&.destroy
                 format.html { render :new, status: :unprocessable_entity }
                 format.json { render json: @funding_request.errors, status: :unprocessable_entity }
               end
