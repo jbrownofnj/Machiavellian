@@ -81,16 +81,16 @@ class TradeRequestsController < ApplicationController
             if @has_at_least_one_resource && (@player.can_afford_trade?(@trade_request)||@player!=@sender.player)
               format.html { redirect_to game_page_show_path, notice: "Awaiting word on your trade my lord" }
             elsif @has_at_least_one_resource
-              @trade_request.destroy
-              @sender.destroy
-              @receiver.destroy
-              @creator.destroy
+              @trade_request&.destroy
+              @sender&.destroy
+              @receiver&.destroy
+              @creator&.destroy
               format.html { redirect_to trade_requests_new_path, notice: "You dont have the resources my lord!" }
             else
-              @trade_request.destroy
-              @sender.destroy
-              @receiver.destroy
-              @creator.destroy
+              @trade_request&.destroy
+              @sender&.destroy
+              @receiver&.destroy
+              @creator&.destroy
               format.html {redirect_to trade_requests_new_path,notice:"One must choose something my lord!"}
             end
           else

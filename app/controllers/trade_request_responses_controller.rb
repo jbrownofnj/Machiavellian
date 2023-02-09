@@ -33,12 +33,12 @@ class TradeRequestResponsesController < ApplicationController
           if can_afford_trade
             @trade_request.payout
           else
-            @trade_request_response.destroy
+            @trade_request_response&.destroy
             format.html { redirect_to trade_player_roles_path, notice:"Player lacks to resources they promised!" }
           end
         elsif @trade_request_response.trade_response_type == "reject"
         else
-          @trade_request_response.destroy
+          @trade_request_response&.destroy
           format.html { redirect_to game_page_show_path, notice: "That is not an acceptable responce." }
         end
         format.html { redirect_to trade_player_roles_path, notice: "A fine choice my lord!" }
