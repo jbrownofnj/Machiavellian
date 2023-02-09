@@ -27,7 +27,7 @@ class User < ApplicationRecord
     end
 
     def password_special_char
-        special = "?<>',?[]}{=-)(*&^%$#`~{}!"
+        special = "?<>',?[]}{=-)(*&@^%$#`~{}!"
         regex = /[#{special.gsub(/./){|char| "\\#{char}"}}]/
         return if password =~ regex
         errors.add :password, ' Your password needs at least one special character '
