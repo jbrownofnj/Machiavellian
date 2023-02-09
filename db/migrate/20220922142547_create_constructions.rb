@@ -3,6 +3,7 @@ class CreateConstructions < ActiveRecord::Migration[7.0]
     create_table :constructions do |t|
       t.references :player, null: false, foreign_key: true
       t.references :round, null: false, foreign_key: true
+      t.boolean :funded,default: false
       t.string :construction_type
 
       t.timestamps
