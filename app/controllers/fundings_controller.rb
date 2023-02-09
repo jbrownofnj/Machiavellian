@@ -25,29 +25,31 @@ class FundingsController < ApplicationController
     @funding_request=FundingRequest.find(funding_params[:funding_request])
     @owner=@funding_request.owner
     @funder=@funding_request.funder
-    @funding_request.funding_request_resources&.each do |resource|
-      if @funding_request.construction.fundings&.find_by(funding_resource_type:resource.funding_resource_type.downcase)
-        if @funder.has_enough_resource(resource.funding_resource_type,resource.funding_resource_amount)
-          existing_fund=@funding_request.construction.fundings.find_by(funding_resource_type:resource.funding_resource_type)
-          existing_fund.update(funding_resource_amount:existing_fund.funding_resource_amount+resource.funding_resource_amount)
-          @funder.lose_resource(resource.funding_resource_type.downcase,resource.funding_resource_amount)
-        else
-          respond_to do |format|
-            format.html { redirect_to game_page_show_path and return}
-          end
-        end
-      else   
-        newfunding=Funding.create(construction:@funding_request.construction, funding_resource_type:resource.funding_resource_type.downcase, funding_resource_amount:resource.funding_resource_amount)
-      end
-    end
     @response=FundRequestResponse.new(funding_request:@funding_request,funding_request_player_role:@funding_request.funding_request_player_roles.find_by(player_role:"funder"), funding_request_response_type:"accept")
     respond_to do |format|
-        if @response.save
-          format.html { redirect_to game_page_show_path, notice: "Good choice my lord" }
-        else
-          format.html { redirect_to game_page_show_path, notice: "Something went wrong my lord!" }
+      if @response.save
+        @funding_request.funding_request_resources&.each do |resource|
+          #Determines if a funding of a given type are present already to add to that instead of making a new one.
+          if @funding_request.construction.fundings&.find_by(funding_resource_type:resource.funding_resource_type.downcase)
+            #Determines of the funder has enough of the given reasource.
+            if @funder.has_enough_resource(resource.funding_resource_type,resource.funding_resource_amount)
+              existing_fund=@funding_request.construction.fundings.find_by(funding_resource_type:resource.funding_resource_type)
+              existing_fund.update(funding_resource_amount:existing_fund.funding_resource_amount+resource.funding_resource_amount)
+              @funder.lose_resource(resource.funding_resource_type.downcase,resource.funding_resource_amount)
+            else
+                @response.destroy
+                format.html { redirect_to game_page_show_path and return}
+            end
+          else   
+            newfunding=Funding.create(construction:@funding_request.construction, funding_resource_type:resource.funding_resource_type.downcase, funding_resource_amount:resource.funding_resource_amount)
+          end
         end
+        format.html { redirect_to game_page_show_path, notice: "Good choice my lord" }
+      else
+        format.html { redirect_to game_page_show_path, notice: "Something went wrong my lord!" }
+      end
     end
+
   end
 
   # PATCH/PUT /fundings/1 or /fundings/1.json
