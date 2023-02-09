@@ -5,6 +5,9 @@
       <p>
         <%= military_unit.military_unit_type.capitalize %>(<%= military_unit.military_unit_power %>)  power (<%=military_unit.stance.capitalize%>)
       </p>
+       <p>
+        Currently on house <%=military_unit.houser.house_name%> lands.
+      </p>
     </div>
   <%else%>
   <div class="bg-red-400 border-4 border-black rounded-lg text-center text-lg">
