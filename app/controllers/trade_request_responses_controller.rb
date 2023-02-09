@@ -23,12 +23,15 @@ class TradeRequestResponsesController < ApplicationController
 
   # POST /trade_request_responses or /trade_request_responses.json
   def create
+
     @trade_request_response = TradeRequestResponse.new(trade_player_role_id:trade_request_response_params[:trade_player_role_id],trade_request_id:trade_request_response_params[:trade_request_id],trade_response_type:trade_request_response_params[:trade_response_type])
     @trade_request=TradeRequest.find(trade_request_response_params[:trade_request_id])
     @sender=@trade_request.sender
     can_afford_trade=@sender.can_afford_trade?(@trade_request)
+
     respond_to do |format|
       if @trade_request_response.save
+        #choice between accept or reject
         if @trade_request_response.trade_response_type == "accept"
           if can_afford_trade
             @trade_request.payout
@@ -37,6 +40,7 @@ class TradeRequestResponsesController < ApplicationController
             format.html { redirect_to trade_player_roles_path, notice:"Player lacks to resources they promised!" }
           end
         elsif @trade_request_response.trade_response_type == "reject"
+          #ensures responses are accept or reject
         else
           @trade_request_response&.destroy
           format.html { redirect_to game_page_show_path, notice: "That is not an acceptable responce." }
