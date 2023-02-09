@@ -4,6 +4,7 @@ class TradeRequestsController < ApplicationController
   before_action :set_player,only: [:new,:create,:format_trade_request,:destroy]
   before_action :logged_in?, only:[:index,:show,:new,:edit,:create,:update,:destroy]
   before_action :is_admin?, only:[:index,:show,:edit,:update,:destroy]
+  
   def index
     @trade_requests = TradeRequest.all
   end
@@ -16,14 +17,10 @@ class TradeRequestsController < ApplicationController
   def new
     @trade_request=TradeRequest.new
     @trade_request.trade_player_roles.build
-    @number_of_trade_request_resources=params[:number_of_trade_request_resources].to_i+1
-   
     @trade_request.trade_request_resources.build
     @trade_request.trade_request_resources.last.trade_request_resource_type="gold"
-    
     @trade_request.trade_request_resources.build
     @trade_request.trade_request_resources.last.trade_request_resource_type="spy"
-    
     @trade_request.trade_request_resources.build
     @trade_request.trade_request_resources.last.trade_request_resource_type="soldier"
     
@@ -32,7 +29,6 @@ class TradeRequestsController < ApplicationController
       @trade_request.trade_request_resources.last.trade_request_resource_type="#{player.house_name} loyalty"
     end
   end
-
 
   # GET /trade_requests/1/edit
   def edit
@@ -43,69 +39,55 @@ class TradeRequestsController < ApplicationController
     @trade_request = TradeRequest.new(round:@game.matches.last.rounds.last)
 
     respond_to do |format|
-
-      if params[:add_trade_resource]
-        @trade_request.trade_player_roles.build
-        @trade_request.trade_request_resources.build
-        trade_request_params[:number_of_resources].to_i.times do 
-          @trade_request.trade_request_resources.build
+      if @trade_request.save
+        #decides if the which player is the sender or the receiver
+        if trade_request_params[:role_type] == "sender"
+          @sender=TradePlayerRole.new(player:@game.players.where(house_name:trade_request_params[:player]).first, trade_request:@trade_request, role_type:"sender")
+          @receiver=TradePlayerRole.new(player:@player,trade_request:@trade_request,role_type:"receiver")
+          @creator=TradePlayerRole.new(player:@player,trade_request:@trade_request,role_type:"creator")
+        else
+          @sender=TradePlayerRole.new(player:@player,trade_request:@trade_request,role_type:"sender")
+          @receiver=TradePlayerRole.new(player:@game.players.where(house_name:trade_request_params[:player]).first,trade_request:@trade_request,role_type:"receiver")
+          @creator=TradePlayerRole.new(player:@player,trade_request:@trade_request,role_type:"creator")
         end
-        format.html{render :new, locals:{trade_request:@trade_request}, status: :unprocessable_entity}
-
-      elsif params[:remove_trade_resource]
-        @trade_request.trade_player_roles.build
-        (trade_request_params[:number_of_resources].to_i-1).times do 
-          @trade_request.trade_request_resources.build
-        end
-        format.html{render :new, status: :unprocessable_entity}
-
-      else
-        if @trade_request.save
-          if trade_request_params[:role_type] == "sender"
-            @sender=TradePlayerRole.new(player:@game.players.where(house_name:trade_request_params[:player]).first, trade_request:@trade_request, role_type:"sender")
-            @receiver=TradePlayerRole.new(player:@player,trade_request:@trade_request,role_type:"receiver")
-            @creator=TradePlayerRole.new(player:@player,trade_request:@trade_request,role_type:"creator")
-          else
-            @sender=TradePlayerRole.new(player:@player,trade_request:@trade_request,role_type:"sender")
-            @receiver=TradePlayerRole.new(player:@game.players.where(house_name:trade_request_params[:player]).first,trade_request:@trade_request,role_type:"receiver")
-            @creator=TradePlayerRole.new(player:@player,trade_request:@trade_request,role_type:"creator")
+        if @sender.save && @receiver.save && @creator.save
+          @has_at_least_one_resource=false
+          trade_request_params[:trade_request_resources_attributes].each do |number_of_resource,params_for_resource|
+            if params_for_resource[:trade_request_resource_quantity].to_i>0
+              @has_at_least_one_resource=true
+              @trade_resource=TradeRequestResource.create(trade_request:@trade_request,trade_request_resource_type:params_for_resource[:trade_request_resource_type],trade_request_resource_quantity:params_for_resource[:trade_request_resource_quantity])
+            end
           end
-          if @sender.save && @receiver.save && @creator.save
-            @has_at_least_one_resource=false
-            trade_request_params[:trade_request_resources_attributes].each do |number_of_resource,params_for_resource|
-              if params_for_resource[:trade_request_resource_quantity].to_i>0
-                @has_at_least_one_resource=true
-                @trade_resource=TradeRequestResource.create(trade_request:@trade_request,trade_request_resource_type:params_for_resource[:trade_request_resource_type],trade_request_resource_quantity:params_for_resource[:trade_request_resource_quantity])
-              end
-            end
-            if @has_at_least_one_resource && (@player.can_afford_trade?(@trade_request)||@player!=@sender.player)
-              format.html { redirect_to game_page_show_path, notice: "Awaiting word on your trade my lord" }
-            elsif @has_at_least_one_resource
-              @trade_request&.destroy
-              @sender&.destroy
-              @receiver&.destroy
-              @creator&.destroy
-              format.html { redirect_to trade_requests_new_path, notice: "You dont have the resources my lord!" }
-            else
-              @trade_request&.destroy
-              @sender&.destroy
-              @receiver&.destroy
-              @creator&.destroy
-              format.html {redirect_to trade_requests_new_path,notice:"One must choose something my lord!"}
-            end
+          #Checks to see if the player creating the request has the resources if they are the sender
+          if @has_at_least_one_resource && (@player.can_afford_trade?(@trade_request)||@player!=@sender.player)
+            format.html { redirect_to game_page_show_path, notice: "Awaiting word on your trade my lord" }
+          elsif @has_at_least_one_resource
+            @trade_request&.destroy
+            @sender&.destroy
+            @receiver&.destroy
+            @creator&.destroy
+            format.html { redirect_to trade_requests_new_path, notice: "You dont have the resources my lord!" }
           else
-            @trade_request.destroy
-            @sender.destroy
-            @receiver.destroy
-            @creator.destroy
-            format.html { redirect_to game_page_show_path, notice: "I beleive that trade letter was lost on route sir" }
+            @trade_request&.destroy
+            @sender&.destroy
+            @receiver&.destroy
+            @creator&.destroy
+            format.html {redirect_to trade_requests_new_path,notice:"One must choose something my lord!"}
           end
         else
+          @trade_request&.destroy
+          @sender&.destroy
+          @receiver&.destroy
+          @creator&.destroy
           format.html { redirect_to game_page_show_path, notice: "I beleive that trade letter was lost on route sir" }
         end
+      else
+        format.html { redirect_to game_page_show_path, notice: "I beleive that trade letter was lost on route sir" }
       end
+    
     end
   end
+
   # PATCH/PUT /trade_requests/1 or /trade_requests/1.json
   def update
     respond_to do |format|
