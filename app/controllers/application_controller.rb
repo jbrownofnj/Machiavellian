@@ -2,12 +2,12 @@ class ApplicationController < ActionController::Base
     rescue_from ActiveRecord::RecordInvalid, with: :invalid_record_alert
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     
-    def logged_in?
-        User.find(session[:user_id])
-    end
-
     def set_user
         @user ||= session[:user_id] && User.find(session[:user_id])
+    end
+
+    def logged_in?
+        redirect_to root_path, status: :unauthorized unless set_user
     end
 
     def set_player

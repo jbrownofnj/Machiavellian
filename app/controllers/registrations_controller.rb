@@ -1,9 +1,12 @@
 class RegistrationsController < ApplicationController
+
   def new
     @user=User.new
   end
+
   def create
     @user=User.new(user_email:registrations_params[:user_email].downcase,password:registrations_params[:password])
+    #Checks that password and confirmation are equal
     if params[:user][:password]==params[:user][:password_confirmation]
       if @user.save
         @user.make_example_game()
@@ -12,6 +15,7 @@ class RegistrationsController < ApplicationController
         redirect_to root_path
       else
         if @user.errors
+          #Groups errors into one string.
           @error_response=""
           @user.errors.each do |error|
             @user.errors.each do |error|
